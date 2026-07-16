@@ -21,9 +21,9 @@
             background-color: #f1f5f9;
         }
 
-        /* Łamanie bardzo długich tekstów chroniące układ tabeli */
+        /* Twarde zapobieganie rozrywaniu tabeli */
         td {
-            overflow-wrap: break-word !important;
+            white-space: normal !important;
             word-wrap: break-word !important;
         }
 
@@ -36,9 +36,9 @@
             font-size: 8.5pt;
             color: #0f172a;
             outline: none;
-            overflow-wrap: break-word !important;
+            white-space: pre-wrap !important;
             word-wrap: break-word !important;
-            white-space: pre-wrap !important; /* Zawijanie tekstu z enterami działa tylko W polu do pisania */
+            overflow-wrap: break-word !important;
         }
 
         /* --- STYL EKRANU --- */
@@ -147,23 +147,27 @@
             table, .section-title, .signatures, .corporate-footer { page-break-inside: avoid !important; }
         }
 
-        /* --- SUROWE ZDJĘCIA (BEZ PRZYCINANIA) --- */
+        /* --- ZDJĘCIA --- */
         .photo-grid {
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-            text-align: left;
+            display: block !important;
+            width: 100% !important;
+            margin-top: 15px !important;
+            font-size: 0 !important; /* Usuwa białe spacje między elementami inline-block */
         }
         
         .uploaded-photo {
             display: inline-block !important;
-            width: 48% !important; /* Szerokość połowy strony */
-            height: auto !important; /* Pełna, naturalna wysokość zdjęcia */
-            margin: 0 1% 15px 0 !important;
+            width: 48% !important; 
+            height: auto !important; 
+            margin: 0 4% 15px 0 !important;
             vertical-align: top !important;
-            border: 1px solid #cbd5e1 !important; /* Zwykła szara ramka */
-            border-radius: 0 !important; /* Zero zaokrągleń */
+            border: 1px solid #cbd5e1 !important; 
+            border-radius: 0 !important; 
             page-break-inside: avoid !important;
+        }
+
+        .uploaded-photo:nth-child(2n) {
+            margin-right: 0 !important;
         }
 
         /* --- FORMATKA AXON --- */
@@ -182,14 +186,14 @@
         /* SZTYWNE TABELE */
         table.form-table, table.list-table { 
             width: 100% !important; 
-            border-collapse: collapse; 
-            margin-bottom: 4px; 
+            border-collapse: collapse !important; 
+            margin-bottom: 4px !important; 
             table-layout: fixed !important; 
         }
         table.form-table td, table.list-table td, table.list-table th { 
             border: 1px solid #cbd5e1 !important; 
-            padding: 4px 6px; 
-            vertical-align: middle; 
+            padding: 4px 6px !important; 
+            vertical-align: middle !important; 
         }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
@@ -256,12 +260,12 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 6%; text-align: center;">Lp.</th>
-                    <th style="width: 44%;">Obszar kontroli (uzupełnia technik)</th>
+                    <th style="width: 5%; text-align: center;">Lp.</th>
+                    <th style="width: 40%;">Obszar kontroli (uzupełnia technik)</th>
                     <th style="width: 7%; text-align: center;">OK</th>
                     <th style="width: 7%; text-align: center;">NOK</th>
                     <th style="width: 7%; text-align: center;">N/D</th>
-                    <th style="width: 29%;">Opis usterki / Wyniki pomiarów / Uwagi</th>
+                    <th style="width: 34%;">Opis usterki / Wyniki pomiarów / Uwagi</th>
                 </tr>
             </thead>
             <tbody id="diag-rows"></tbody>
@@ -279,8 +283,8 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 6%; text-align: center;">Lp.</th>
-                    <th style="width: 50%;">Nazwa komponentu / Kod części</th>
+                    <th style="width: 5%; text-align: center;">Lp.</th>
+                    <th style="width: 51%;">Nazwa komponentu / Kod części</th>
                     <th style="width: 32%;">Numer seryjny części</th>
                     <th style="width: 12%; text-align: center;">Ilość</th>
                 </tr>
@@ -370,7 +374,6 @@
     <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF</button>
 
     <script>
-        // CZYSTY SKRYPT GENERUJĄCY 6 KOLUMN DLA DIAGNOSTYKI
         const diagBody = document.getElementById('diag-rows');
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
@@ -385,7 +388,6 @@
             `;
         }
 
-        // CZYSTY SKRYPT GENERUJĄCY 4 KOLUMNY DLA CZĘŚCI
         const partsBody = document.getElementById('parts-rows');
         for (let i = 1; i <= 3; i++) {
             partsBody.innerHTML += `
@@ -398,7 +400,6 @@
             `;
         }
 
-        // WRZUCANIE ZDJĘĆ BEZPOŚREDNIO JAKO <IMG>
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
@@ -419,7 +420,6 @@
             }
         });
 
-        // SKRYPT NAPRAWIAJĄCY ZAPIS DO PDF NA KOMPUTERACH 
         window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
