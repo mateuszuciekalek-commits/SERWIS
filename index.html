@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
-        /* Wymuszenie idealnego drukowania kolorów i łamania słów */
+        /* Globalne reguły bezpieczeństwa i łamania tekstów */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             box-sizing: border-box;
-            word-break: break-all !important; /* Wymusza łamanie zbyt długich numerów/indeksów w każdym miejscu */
+            word-break: break-all !important; /* Łamie długie numery i indeksy */
             overflow-wrap: break-word !important;
         }
 
@@ -22,20 +22,17 @@
             line-height: 1.3;
         }
 
+        /* Styl dla pól edytowalnych */
         .input-field {
             display: block !important;
-            width: 100%;
+            width: 100% !important;
             min-height: 18px;
             padding: 2px 4px;
             font-family: inherit;
             font-size: 8.5pt;
             color: #0f172a;
-            vertical-align: middle;
-            border: 1px solid #cbd5e1;
-            border-radius: 3px;
-            background-color: #f8fafc;
             outline: none;
-            white-space: pre-wrap !important; /* Pozwala na zachowanie enterów i spacji */
+            white-space: pre-wrap !important; /* Pozwala na zawijanie i entery */
         }
 
         /* --- STYL EKRANU (SMARTFON / PC) --- */
@@ -56,6 +53,16 @@
                 position: relative;
                 margin-bottom: 20px;
             }
+            .input-field {
+                border: 1px solid #cbd5e1;
+                border-radius: 3px;
+                background-color: #f8fafc;
+            }
+            .input-field:focus {
+                border-color: #0284c7;
+                background-color: #ffffff;
+                box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+            }
             .page-break {
                 border-top: 3px dashed #64748b;
                 margin: 20px 0;
@@ -75,30 +82,6 @@
                 padding: 2px 10px;
                 border-radius: 10px;
                 font-weight: bold;
-            }
-            .input-field:focus {
-                border-color: #0284c7;
-                background-color: #ffffff;
-                box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
-            }
-            .print-btn {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                background-color: #0f172a;
-                color: white;
-                border: none;
-                padding: 14px 28px;
-                font-size: 15px;
-                font-weight: bold;
-                border-radius: 50px;
-                cursor: pointer;
-                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
-                z-index: 1000;
-            }
-            .print-btn:hover {
-                transform: translateY(-2px);
-                background-color: #1e293b;
             }
             .photo-controls {
                 background-color: #f8fafc;
@@ -202,8 +185,19 @@
         
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
-        table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 5px 6px; vertical-align: middle; }
+        /* KLUCZOWA ZMIANA: Zablokowanie szerokości tabel na sztywno */
+        table.form-table, table.list-table { 
+            width: 100% !important; 
+            border-collapse: collapse; 
+            margin-bottom: 4px; 
+            table-layout: fixed !important; 
+        }
+        table.form-table td, table.list-table td, table.list-table th { 
+            border: 1px solid #cbd5e1 !important; 
+            padding: 4px 6px; 
+            vertical-align: middle; 
+            overflow: hidden !important;
+        }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
         
@@ -244,10 +238,10 @@
         <div class="section-title">1. Identyfikacja urządzenia i zlecenia</div>
         <table class="form-table">
             <tr>
-                <td class="label">Model / Typ stacji:</td>
-                <td style="width: 32%;"><div class="input-field" contenteditable="true" placeholder="Wpisz model..."></div></td>
-                <td class="label">Numer seryjny (QP):</td>
-                <td style="width: 32%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
+                <td class="label" style="width: 16%;">Model / Typ stacji:</td>
+                <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Wpisz model..."></div></td>
+                <td class="label" style="width: 16%;">Numer seryjny (QP):</td>
+                <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
             </tr>
             <tr>
                 <td class="label">Adres instalacji:</td>
@@ -271,12 +265,12 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 5%; text-align: center;">Lp.</th>
-                    <th style="width: 40%;">Obszar kontroli (uzupełnia technik)</th>
+                    <th style="width: 6%; text-align: center;">Lp.</th>
+                    <th style="width: 44%;">Obszar kontroli (uzupełnia technik)</th>
                     <th style="width: 7%; text-align: center;">OK</th>
                     <th style="width: 7%; text-align: center;">NOK</th>
                     <th style="width: 7%; text-align: center;">N/D</th>
-                    <th>Opis usterki / Wyniki pomiarów / Uwagi</th>
+                    <th style="width: 29%;">Opis usterki / Wyniki pomiarów / Uwagi</th>
                 </tr>
             </thead>
             <tbody id="diag-rows"></tbody>
@@ -294,9 +288,9 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 5%; text-align: center;">Lp.</th>
+                    <th style="width: 6%; text-align: center;">Lp.</th>
                     <th style="width: 50%;">Nazwa komponentu / Kod części</th>
-                    <th style="width: 33%;">Numer seryjny części</th>
+                    <th style="width: 32%;">Numer seryjny części</th>
                     <th style="width: 12%; text-align: center;">Ilość</th>
                 </tr>
             </thead>
@@ -308,7 +302,7 @@
             <tr>
                 <td style="width: 30%; font-weight: bold; background-color: #f8fafc;">Połączenie z systemem / backendem:</td>
                 <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
-                <td><div class="input-field" contenteditable="true" placeholder="Uwagi do komunikacji..."></div></td>
+                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Uwagi do komunikacji..."></div></td>
             </tr>
             <tr>
                 <td style="font-weight: bold; background-color: #f8fafc;">Próbna sesja ładowania (test EV):</td>
@@ -388,7 +382,7 @@
             diagBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
-                    <td><div class="input-field" contenteditable="true" placeholder="Obszar kontroli..."></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Wpisz obszar kontroli..."></div></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
