@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Protokół Serwisowy Axon Charger</title>
+    <style>
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            font-size: 8.5pt;
+            line-height: 1.3;
+        }
+
+        @media screen {
+            body {
+                background-color: #f1f5f9;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+            }
+            .document-container {
+                background-color: #ffffff;
+                width: 100%;
+                max-width: 210mm;
+                min-height: 297mm;
+                padding: 12mm 15mm;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                position: relative;
+            }
+            input[type="text"], textarea {
+                width: 100%;
+                padding: 6px;
+                border: 1px solid #cbd5e1;
+                border-radius: 4px;
+                background-color: #f8fafc;
+                font-family: inherit;
+                font-size: 9pt;
+            }
+            input:focus, textarea:focus {
+                outline: none;
+                border-color: #0284c7;
+                background-color: #ffffff;
+                box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+            }
+            .photo-controls {
+                background-color: #f8fafc;
+                border: 2px dashed #cbd5e1;
+                padding: 15px;
+                text-align: center;
+                margin-top: 10px;
+                border-radius: 6px;
+            }
+            .file-input-btn {
+                background-color: #0284c7;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                display: inline-block;
+            }
+            .print-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #0f172a;
+                color: white;
+                border: none;
+                padding: 16px 24px;
+                font-size: 14px;
+                font-weight: bold;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+                z-index: 1000;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm 12mm 22mm 12mm;
+            }
+            body { background-color: #ffffff !important; }
+            .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
+            .print-btn, .photo-controls { display: none !important; }
+            input[type="text"], textarea {
+                border: none !important;
+                background-color: transparent !important;
+                padding: 0 !important;
+                color: #000000 !important;
+                font-weight: bold !important;
+            }
+            .photo-preview-container img {
+                max-width: 100% !important;
+                height: auto !important;
+                margin-top: 15px !important;
+                border-radius: 4px;
+            }
+        }
+
+        /* --- FORMATKA PREMIUM AXON --- */
+        .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+        .brand-logo-cell { width: 45%; vertical-align: top; }
+        .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
+        .brand-subtitle { margin: 2px 0 0 0; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; }
+        .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
+        .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; }
+        .doc-title-bar table { width: 100%; border-collapse: collapse; }
+        .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
+        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 12px; margin-bottom: 5px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
+        table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 5px 6px; vertical-align: middle; }
+        .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
+        table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
+        .photo-preview-container { text-align: center; width: 100%; }
+        .photo-preview-container img { max-width: 250px; height: auto; margin-top: 10px; border: 1px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .corporate-footer { margin-top: 30px; border-top: 1px solid #e2e8f0 !important; padding-top: 6px; font-size: 6pt; color: #718096; }
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        
+        <!-- HEADER -->
+        <table class="brand-header">
+            <tr>
+                <td class="brand-logo-cell">
+                    <div class="brand-logo">A X O N  C H A R G E R</div>
+                    <div class="brand-subtitle">let's talk</div>
+                </td>
+                <td class="brand-contacts-cell">
+                    <strong>Ekoenergetyka-Polska S.A.</strong><br>
+                    Tel: +48 68 328 20 68 • Email: contact@ekoenergetyka.com<br>
+                    Web: ekoenergetyka.com • <em>All you need</em>
+                </td>
+            </tr>
+        </table>
+
+        <!-- TITLE BAR -->
+        <div class="doc-title-bar">
+            <table>
+                <tr>
+                    <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
+                    <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1;">
+                        Nr zlecenia: <input type="text" style="width: 100px; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; padding: 0;" placeholder=".................">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 1. IDENTYFIKACJA -->
+        <div class="section-title">1. Identyfikacja urządzenia i zlecenia</div>
+        <table class="form-table">
+            <tr>
+                <td class="label">Model / Typ stacji:</td>
+                <td style="width: 32%;"><input type="text" placeholder="Wpisz model..."></td>
+                <td class="label">Numer seryjny (QP):</td>
+                <td style="width: 32%; font-family: monospace; font-weight: bold;"><input type="text" value="QP-"></td>
+            </tr>
+            <tr>
+                <td class="label">Adres instalacji:</td>
+                <td colspan="3"><input type="text" placeholder="Adres stacji..."></td>
+            </tr>
+            <tr>
+                <td class="label">Klient / Sklep:</td>
+                <td><input type="text" placeholder="Klient..."></td>
+                <td class="label">Technik serwisowy:</td>
+                <td><input type="text" placeholder="Serwisant..."></td>
+            </tr>
+            <tr>
+                <td class="label">Data wykonania:</td>
+                <td><input type="text" placeholder="DD.MM.RRRR"></td>
+                <td class="label">Czas pracy (od - do):</td>
+                <td><input type="text" placeholder="00:00 - 00:00"></td>
+            </tr>
+        </table>
+
+        <!-- 2. DIAGNOSTYKA -->
+        <div class="section-title">2. Diagnostyka wstępna i weryfikacja stanu stacji</div>
+        <table class="list-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">Lp.</th>
+                    <th style="width: 40%;">Obszar kontroli (uzupełnia technik)</th>
+                    <th style="width: 7%; text-align: center;">OK</th>
+                    <th style="width: 7%; text-align: center;">NOK</th>
+                    <th style="width: 7%; text-align: center;">N/D</th>
+                    <th>Opis usterki / Wyniki pomiarów / Uwagi</th>
+                </tr>
+            </thead>
+            <tbody id="diag-rows"></tbody>
+        </table>
+
+        <!-- 3. OPIS PRAC i ZDJĘCIE -->
+        <div class="section-title">3. Szczegółowy opis prac oraz dokumentacja fotograficzna</div>
+        <textarea rows="3" placeholder="Opisz wykonane czynności..."></textarea>
+        
+        <!-- Moduł fotograficzny działający na smartfonie -->
+        <div class="photo-controls">
+            <label for="camera-input" class="file-input-btn">📸 Zrób / Dodaj zdjęcie usterki</label>
+            <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
+        </div>
+        <div class="photo-preview-container" id="preview-box"></div>
+
+        <!-- 4. CZĘŚCI ZAMIENNE -->
+        <div class="section-title">4. Wykorzystane części zamienne i materiały eksploatacyjne</div>
+        <table class="list-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">Lp.</th>
+                    <th style="width: 50%;">Nazwa komponentu / Kod części</th>
+                    <th style="width: 33%;">Numer seryjny części</th>
+                    <th style="width: 12%; text-align: center;">Ilość</th>
+                </tr>
+            </thead>
+            <tbody id="parts-rows"></tbody>
+        </table>
+
+        <!-- 5. TESTY KOŃCOWE -->
+        <div class="section-title">5. Testy końcowe i status urządzenia po naprawie</div>
+        <table class="list-table">
+            <tr>
+                <td style="width: 30%; font-weight: bold; background-color: #f8fafc;">Połączenie z systemem / backendem:</td>
+                <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
+                <td><input type="text" placeholder="Uwagi..."></td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; background-color: #f8fafc;">Próbna sesja ładowania (test EV):</td>
+                <td style="text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
+                <td><label><input type="checkbox"> Złącze 1: OK</label> &nbsp; <label><input type="checkbox"> Złącze 2: OK</label></td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; background-color: #f8fafc;">STATUS KOŃCOWY URZĄDZENIA:</td>
+                <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> SPRAWNA</label><br><label><input type="checkbox"> WYM. PRAC</label></td>
+                <td><input type="text" placeholder="Dalsze zalecenia..."></td>
+            </tr>
+        </table>
+
+        <!-- PODPISY -->
+        <table style="width: 100%; margin-top: 30px; border-collapse: collapse;">
+            <tr>
+                <td style="width: 50%; text-align: center; padding: 0 15px;">
+                    <input type="text" placeholder="Podpis technika..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0;">
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis Serwisanta</div>
+                </td>
+                <td style="width: 50%; text-align: center; padding: 0 15px;">
+                    <input type="text" placeholder="Podpis przedstawiciela..." style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0;">
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis przedstawiciela stacji</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- STOPKA -->
+        <div class="corporate-footer">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; padding-bottom: 2px;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; vertical-align: bottom;">ekoenergetyka.com</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="color: #64748b; font-size: 6pt; line-height: 1.3;">
+                        Ekoenergetyka-Polska S.A. - Właściciel marki Axon Charger z siedzibą w Zielonej Górze, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, Sąd Rejonowy w Zielonej Górze, VIII Wydział Gospodarczy Krajowego Rejestru Sądowego, KRS: 0000846229, NIP: 9731013938, kapitał zakładowy: 323.889 PLN, kapitał wpłacony: 323.889 PLN, Numer BDO: 000014716.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF / Drukuj</button>
+
+    <script>
+        const diagBody = document.getElementById('diag-rows');
+        for (let i = 1; i <= 6; i++) {
+            diagBody.innerHTML += `
+                <tr>
+                    <td style="text-align: center; font-weight: bold;">${i}</td>
+                    <td><input type="text" placeholder="Obszar kontroli..."></td>
+                    <td style="text-align: center;"><input type="checkbox"></td>
+                    <td style="text-align: center;"><input type="checkbox"></td>
+                    <td style="text-align: center;"><input type="checkbox"></td>
+                    <td><input type="text" placeholder="Uwagi..."></td>
+                </tr>
+            `;
+        }
+
+        const partsBody = document.getElementById('parts-rows');
+        for (let i = 1; i <= 3; i++) {
+            partsBody.innerHTML += `
+                <tr>
+                    <td style="text-align: center; font-weight: bold;">${i}</td>
+                    <td><input type="text" placeholder="Nazwa części..."></td>
+                    <td><input type="text" placeholder="S/N..."></td>
+                    <td style="text-align: center;"><input type="text" style="text-align: center;" placeholder="szt."></td>
+                </tr>
+            `;
+        }
+
+        // Skrypt obsługi aparatu fotograficznego
+        const cameraInput = document.getElementById('camera-input');
+        const previewBox = document.getElementById('preview-box');
+
+        cameraInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewBox.innerHTML = `<img src="${event.target.result}" alt="Zdjęcie usterki">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
