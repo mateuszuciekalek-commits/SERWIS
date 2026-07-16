@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
-        /* Wymuszenie idealnego drukowania kolorów firmowych */
+        /* Wymuszenie idealnego drukowania kolorów i łamania słów */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             box-sizing: border-box;
+            word-break: break-all !important; /* Wymusza łamanie zbyt długich numerów/indeksów w każdym miejscu */
+            overflow-wrap: break-word !important;
         }
 
         body {
@@ -21,7 +23,7 @@
         }
 
         .input-field {
-            display: inline-block;
+            display: block !important;
             width: 100%;
             min-height: 18px;
             padding: 2px 4px;
@@ -33,6 +35,7 @@
             border-radius: 3px;
             background-color: #f8fafc;
             outline: none;
+            white-space: pre-wrap !important; /* Pozwala na zachowanie enterów i spacji */
         }
 
         /* --- STYL EKRANU (SMARTFON / PC) --- */
@@ -93,6 +96,10 @@
                 box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
                 z-index: 1000;
             }
+            .print-btn:hover {
+                transform: translateY(-2px);
+                background-color: #1e293b;
+            }
             .photo-controls {
                 background-color: #f8fafc;
                 border: 2px dashed #0284c7;
@@ -135,7 +142,7 @@
         @media print {
             @page {
                 size: A4;
-                margin: 10mm 12mm 15mm 12mm;
+                margin: 8mm 12mm 15mm 12mm;
             }
             body { background-color: #ffffff !important; }
             .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
@@ -149,12 +156,8 @@
                 box-shadow: none !important;
                 color: #000000 !important;
                 font-weight: bold !important;
-                display: block !important;
-                white-space: pre-wrap !important;
-                word-wrap: break-word !important;
             }
 
-            /* WYMUSZENIE STRONY 2 DLA ZDJĘĆ */
             .photo-section-anchor {
                 page-break-before: always !important;
                 margin-top: 20mm !important;
@@ -165,7 +168,7 @@
             }
             .photo-wrapper {
                 display: inline-block !important;
-                width: 48% !important; /* Dwa zdjęcia obok siebie na całą szerokość strony 2 */
+                width: 48% !important;
                 height: 180px !important;
                 margin-right: 2% !important;
                 margin-bottom: 15px !important;
@@ -186,7 +189,7 @@
             }
         }
 
-        /* --- PIĘKNA FORMATKA AXON --- */
+        /* --- LOGO I STOPKA AXON --- */
         .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
@@ -209,7 +212,7 @@
 </head>
 <body>
 
-    <!-- STRONA 1: FORMULARZ GŁÓWNY -->
+    <!-- STRONA 1 -->
     <div class="document-container">
         
         <table class="brand-header">
@@ -280,7 +283,7 @@
         </table>
 
         <div class="section-title">3. Szczegółowy opis wykonanych czynności serwisowych</div>
-        <div class="input-field" contenteditable="true" placeholder="Opisz przebieg naprawy, resety, wykonane konfiguracje..." style="min-height: 55px; border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 6px;"></div>
+        <div class="input-field" contenteditable="true" placeholder="Opisz przebieg naprawy..." style="min-height: 55px; border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 6px;"></div>
 
         <div class="photo-controls">
             <label for="camera-input" class="file-input-btn">📸 Kliknij, aby zrobić / dodać zdjęcia usterki</label>
@@ -347,10 +350,9 @@
         </div>
     </div>
 
-    <!-- WIRTUALNY PODZIAŁ STRON (WIDOCZNY TYLKO NA EKRANIE) -->
     <div class="page-break"></div>
 
-    <!-- STRONA 2: KARTA DOKUMENTACJI FOTOGRAFICZNEJ -->
+    <!-- STRONA 2 -->
     <div class="document-container photo-section-anchor">
         <table class="brand-header">
             <tr>
@@ -366,8 +368,6 @@
         </table>
 
         <div class="section-title" style="text-align: left; padding-left: 10px;">ZAŁĄCZNIK: ZDJĘCIA Z INTERWENCJI SERWISOWEJ</div>
-        
-        <!-- Tu wskoczą zdjęcia robione telefonem -->
         <div class="photo-grid" id="preview-box"></div>
 
         <div class="corporate-footer" style="margin-top: 80mm;">
@@ -388,7 +388,7 @@
             diagBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
-                    <td><div class="input-field" contenteditable="true" placeholder="Wpisz obszar kontroli..."></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Obszar kontroli..."></div></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
