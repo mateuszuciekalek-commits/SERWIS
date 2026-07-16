@@ -21,10 +21,10 @@
             background-color: #f1f5f9;
         }
 
-        .input-field, td {
+        /* Łamanie bardzo długich tekstów chroniące układ tabeli */
+        td {
             overflow-wrap: break-word !important;
             word-wrap: break-word !important;
-            white-space: pre-wrap !important;
         }
 
         .input-field {
@@ -36,6 +36,9 @@
             font-size: 8.5pt;
             color: #0f172a;
             outline: none;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            white-space: pre-wrap !important; /* Zawijanie tekstu z enterami działa tylko W polu do pisania */
         }
 
         /* --- STYL EKRANU --- */
@@ -158,7 +161,7 @@
             height: auto !important; /* Pełna, naturalna wysokość zdjęcia */
             margin: 0 1% 15px 0 !important;
             vertical-align: top !important;
-            border: 2px solid #0f172a !important; /* Zwykła, ostra, czarna ramka */
+            border: 1px solid #cbd5e1 !important; /* Zwykła szara ramka */
             border-radius: 0 !important; /* Zero zaokrągleń */
             page-break-inside: avoid !important;
         }
@@ -176,6 +179,7 @@
         
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
+        /* SZTYWNE TABELE */
         table.form-table, table.list-table { 
             width: 100% !important; 
             border-collapse: collapse; 
@@ -253,11 +257,11 @@
             <thead>
                 <tr>
                     <th style="width: 6%; text-align: center;">Lp.</th>
-                    <th style="width: 44%;">Obszar kontroli</th>
+                    <th style="width: 44%;">Obszar kontroli (uzupełnia technik)</th>
                     <th style="width: 7%; text-align: center;">OK</th>
                     <th style="width: 7%; text-align: center;">NOK</th>
                     <th style="width: 7%; text-align: center;">N/D</th>
-                    <th style="width: 29%;">Opis usterki / Wyniki pomiarów</th>
+                    <th style="width: 29%;">Opis usterki / Wyniki pomiarów / Uwagi</th>
                 </tr>
             </thead>
             <tbody id="diag-rows"></tbody>
@@ -350,7 +354,7 @@
 
         <div class="section-title" style="text-align: left; padding-left: 10px;">ZAŁĄCZNIK: ZDJĘCIA Z INTERWENCJI SERWISOWEJ</div>
         
-        <!-- SIATKA ZDJĘĆ -->
+        <!-- SUROWA SIATKA ZDJĘĆ -->
         <div class="photo-grid" id="preview-box"></div>
 
         <div class="corporate-footer" style="margin-top: 80mm;">
@@ -366,6 +370,7 @@
     <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF</button>
 
     <script>
+        // CZYSTY SKRYPT GENERUJĄCY 6 KOLUMN DLA DIAGNOSTYKI
         const diagBody = document.getElementById('diag-rows');
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
@@ -380,6 +385,7 @@
             `;
         }
 
+        // CZYSTY SKRYPT GENERUJĄCY 4 KOLUMNY DLA CZĘŚCI
         const partsBody = document.getElementById('parts-rows');
         for (let i = 1; i <= 3; i++) {
             partsBody.innerHTML += `
@@ -392,6 +398,7 @@
             `;
         }
 
+        // WRZUCANIE ZDJĘĆ BEZPOŚREDNIO JAKO <IMG>
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
@@ -402,7 +409,6 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        // Tworzymy bezpośrednio surowy obraz - bez żadnych ukrytych pojemników HTML (div)
                         const img = document.createElement('img');
                         img.className = 'uploaded-photo';
                         img.src = event.target.result;
@@ -413,6 +419,7 @@
             }
         });
 
+        // SKRYPT NAPRAWIAJĄCY ZAPIS DO PDF NA KOMPUTERACH 
         window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
