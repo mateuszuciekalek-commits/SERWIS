@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
-        /* Globalne reguły bezpieczeństwa i łamania tekstów */
+        /* Globalne i bezwzględne reguły łamania tekstów */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             box-sizing: border-box;
-            word-break: break-all !important; /* Łamie długie numery i indeksy */
+            word-break: break-all !important; /* Bezwzględne łamanie długich słów */
             overflow-wrap: break-word !important;
         }
 
@@ -26,13 +26,16 @@
         .input-field {
             display: block !important;
             width: 100% !important;
+            max-width: 100% !important;
             min-height: 18px;
             padding: 2px 4px;
             font-family: inherit;
             font-size: 8.5pt;
             color: #0f172a;
             outline: none;
-            white-space: pre-wrap !important; /* Pozwala na zawijanie i entery */
+            white-space: pre-wrap !important; /* Zachowanie enterów i spacji */
+            word-break: break-all !important;
+            overflow-wrap: break-word !important;
         }
 
         /* --- STYL EKRANU (SMARTFON / PC) --- */
@@ -185,7 +188,7 @@
         
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
-        /* KLUCZOWA ZMIANA: Zablokowanie szerokości tabel na sztywno */
+        /* Zablokowanie szerokości tabel oraz wymuszenie normalnego zachowania tekstu */
         table.form-table, table.list-table { 
             width: 100% !important; 
             border-collapse: collapse; 
@@ -197,6 +200,8 @@
             padding: 4px 6px; 
             vertical-align: middle; 
             overflow: hidden !important;
+            white-space: normal !important; /* RESET DLA PRZEGLĄDAREK MOBILNYCH - ZEZWALA NA ZAWINIĘCIA */
+            word-break: break-all !important; /* Wymuszenie łamania na poziomie komórki */
         }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
