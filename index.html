@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
+        /* Wymuszenie idealnego drukowania kolorów firmowych */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
@@ -16,47 +17,88 @@
             padding: 0;
             color: #1e293b;
             font-size: 8.5pt;
-            line-height: 1.25;
+            line-height: 1.3;
         }
 
-        /* --- STYL EKRANU (SMARTFON / TABLET / PC) --- */
+        .input-field {
+            display: inline-block;
+            width: 100%;
+            min-height: 18px;
+            padding: 2px 4px;
+            font-family: inherit;
+            font-size: 8.5pt;
+            color: #0f172a;
+            vertical-align: middle;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            background-color: #f8fafc;
+            outline: none;
+        }
+
+        /* --- STYL EKRANU (SMARTFON / PC) --- */
         @media screen {
             body {
                 background-color: #f1f5f9;
-                padding: 10px;
+                padding: 20px;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
             }
             .document-container {
                 background-color: #ffffff;
                 width: 100%;
                 max-width: 210mm;
-                min-height: 297mm;
-                padding: 10mm 15mm;
+                padding: 12mm 15mm;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
                 position: relative;
+                margin-bottom: 20px;
             }
-            input[type="text"], textarea {
+            .page-break {
+                border-top: 3px dashed #64748b;
+                margin: 20px 0;
                 width: 100%;
-                padding: 5px;
-                border: 1px solid #cbd5e1;
-                border-radius: 4px;
-                background-color: #f8fafc;
-                font-family: inherit;
-                font-size: 9pt;
+                max-width: 210mm;
+                position: relative;
             }
-            input:focus, textarea:focus {
-                outline: none;
+            .page-break::after {
+                content: "STRONA 2 (ZAŁĄCZNIK FOTOGRAFICZNY)";
+                position: absolute;
+                top: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #64748b;
+                color: white;
+                font-size: 8pt;
+                padding: 2px 10px;
+                border-radius: 10px;
+                font-weight: bold;
+            }
+            .input-field:focus {
                 border-color: #0284c7;
                 background-color: #ffffff;
                 box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
             }
+            .print-btn {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background-color: #0f172a;
+                color: white;
+                border: none;
+                padding: 14px 28px;
+                font-size: 15px;
+                font-weight: bold;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+                z-index: 1000;
+            }
             .photo-controls {
                 background-color: #f8fafc;
-                border: 2px dashed #cbd5e1;
-                padding: 12px;
+                border: 2px dashed #0284c7;
+                padding: 15px;
                 text-align: center;
-                margin-top: 8px;
+                margin-top: 10px;
                 border-radius: 6px;
             }
             .file-input-btn {
@@ -68,32 +110,16 @@
                 font-weight: bold;
                 display: inline-block;
             }
-            .print-btn {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background-color: #0f172a;
-                color: white;
-                border: none;
-                padding: 14px 24px;
-                font-size: 14px;
-                font-weight: bold;
-                border-radius: 50px;
-                cursor: pointer;
-                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
-                z-index: 1000;
-            }
-            .photo-preview-container {
+            .photo-grid {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 10px;
-                margin-top: 8px;
-                justify-content: center;
+                gap: 12px;
+                margin-top: 15px;
+                justify-content: flex-start;
             }
             .photo-wrapper {
-                position: relative;
-                width: 140px;
-                height: 105px;
+                width: calc(33.33% - 8px);
+                height: 140px;
                 border: 1px solid #cbd5e1;
                 border-radius: 4px;
                 overflow: hidden;
@@ -105,63 +131,62 @@
             }
         }
 
-        /* --- STYL DLA WYDRUKU (IDEALNY PDF CYFROWY) --- */
+        /* --- STYL WYDRUKU PDF (2 STRONY) --- */
         @media print {
             @page {
                 size: A4;
-                margin: 8mm 12mm 15mm 12mm;
+                margin: 10mm 12mm 15mm 12mm;
             }
-            body { 
-                background-color: #ffffff !important; 
-            }
-            .document-container { 
-                width: 100% !important; 
-                padding: 0 !important; 
-                box-shadow: none !important; 
-            }
-            .print-btn, .photo-controls { 
-                display: none !important; 
-            }
-            input[type="text"], textarea {
+            body { background-color: #ffffff !important; }
+            .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
+            .print-btn, .photo-controls, .page-break { display: none !important; }
+            
+            .input-field {
                 border: none !important;
                 background-color: transparent !important;
                 padding: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
                 color: #000000 !important;
                 font-weight: bold !important;
-            }
-            textarea {
-                display: block;
-                white-space: pre-wrap;
-            }
-            /* Wymuszenie kompaktowej siatki zdjęć na PDF */
-            .photo-preview-container {
                 display: block !important;
-                text-align: left !important;
-                margin-top: 5px !important;
-                page-break-inside: avoid !important;
+                white-space: pre-wrap !important;
+                word-wrap: break-word !important;
+            }
+
+            /* WYMUSZENIE STRONY 2 DLA ZDJĘĆ */
+            .photo-section-anchor {
+                page-break-before: always !important;
+                margin-top: 20mm !important;
+            }
+            .photo-grid {
+                display: block !important;
+                width: 100% !important;
             }
             .photo-wrapper {
                 display: inline-block !important;
-                width: 32% !important; /* Trzy zdjęcia obok siebie mieszczą się idealnie */
-                height: 110px !important;
-                margin-right: 1% !important;
-                margin-bottom: 5px !important;
+                width: 48% !important; /* Dwa zdjęcia obok siebie na całą szerokość strony 2 */
+                height: 180px !important;
+                margin-right: 2% !important;
+                margin-bottom: 15px !important;
                 border: 1px solid #cbd5e1 !important;
                 border-radius: 4px !important;
                 page-break-inside: avoid !important;
+            }
+            .photo-wrapper:nth-child(2n) {
+                margin-right: 0 !important;
             }
             .photo-wrapper img {
                 width: 100% !important;
                 height: 100% !important;
                 object-fit: cover !important;
             }
-            /* Zapobieganie rozbijaniu ważnych sekcji na strony */
             table, .section-title, .signatures, .corporate-footer {
                 page-break-inside: avoid !important;
             }
         }
 
-        /* --- FORMATKA PREMIUM AXON --- */
+        /* --- PIĘKNA FORMATKA AXON --- */
         .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
@@ -175,18 +200,18 @@
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
         table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 4px 6px; vertical-align: middle; }
+        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 5px 6px; vertical-align: middle; }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
         
-        .corporate-footer { margin-top: 15px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
+        .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
     </style>
 </head>
 <body>
 
+    <!-- STRONA 1: FORMULARZ GŁÓWNY -->
     <div class="document-container">
         
-        <!-- HEADER -->
         <table class="brand-header">
             <tr>
                 <td class="brand-logo-cell">
@@ -201,46 +226,44 @@
             </tr>
         </table>
 
-        <!-- TITLE BAR -->
         <div class="doc-title-bar">
             <table>
                 <tr>
                     <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
-                    <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1;">
-                        Nr zlecenia: <input type="text" style="width: 100px; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; padding: 0;" placeholder=".................">
+                    <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1; vertical-align: middle;">
+                        <span style="display: inline-block; vertical-align: middle;">Nr zlecenia:</span>
+                        <div class="input-field" contenteditable="true" style="width: 100px; display: inline-block; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0;"></div>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <!-- 1. IDENTYFIKACJA -->
         <div class="section-title">1. Identyfikacja urządzenia i zlecenia</div>
         <table class="form-table">
             <tr>
                 <td class="label">Model / Typ stacji:</td>
-                <td style="width: 32%;"><input type="text" placeholder="Wpisz model..."></td>
+                <td style="width: 32%;"><div class="input-field" contenteditable="true" placeholder="Wpisz model..."></div></td>
                 <td class="label">Numer seryjny (QP):</td>
-                <td style="width: 32%; font-family: monospace; font-weight: bold;"><input type="text" value="QP-"></td>
+                <td style="width: 32%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
             </tr>
             <tr>
                 <td class="label">Adres instalacji:</td>
-                <td colspan="3"><input type="text" placeholder="Adres stacji..."></td>
+                <td colspan="3"><div class="input-field" contenteditable="true" placeholder="Adres stacji..."></div></td>
             </tr>
             <tr>
                 <td class="label">Klient / Sklep:</td>
-                <td><input type="text" placeholder="Klient..."></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Klient..."></div></td>
                 <td class="label">Technik serwisowy:</td>
-                <td><input type="text" placeholder="Serwisant..."></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Serwisant..."></div></td>
             </tr>
             <tr>
                 <td class="label">Data wykonania:</td>
-                <td><input type="text" placeholder="DD.MM.RRRR"></td>
+                <td><div class="input-field" contenteditable="true" placeholder="DD.MM.RRRR"></div></td>
                 <td class="label">Czas pracy (od - do):</td>
-                <td><input type="text" placeholder="00:00 - 00:00"></td>
+                <td><div class="input-field" contenteditable="true" placeholder="00:00 - 00:00"></div></td>
             </tr>
         </table>
 
-        <!-- 2. DIAGNOSTYKA -->
         <div class="section-title">2. Diagnostyka wstępna i weryfikacja stanu stacji</div>
         <table class="list-table">
             <thead>
@@ -256,18 +279,14 @@
             <tbody id="diag-rows"></tbody>
         </table>
 
-        <!-- 3. OPIS PRAC i MULTI-FOTO -->
-        <div class="section-title">3. Szczegółowy opis prac oraz dokumentacja fotograficzna</div>
-        <textarea rows="3" placeholder="Opisz wykonane czynności serwisowe..."></textarea>
-        
-        <!-- Dodawanie wielu zdjęć bezpośrednio z aparatu telefonu -->
+        <div class="section-title">3. Szczegółowy opis wykonanych czynności serwisowych</div>
+        <div class="input-field" contenteditable="true" placeholder="Opisz przebieg naprawy, resety, wykonane konfiguracje..." style="min-height: 55px; border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 6px;"></div>
+
         <div class="photo-controls">
-            <label for="camera-input" class="file-input-btn">📸 Dodaj zdjęcia (zrób aparatem)</label>
+            <label for="camera-input" class="file-input-btn">📸 Kliknij, aby zrobić / dodać zdjęcia usterki</label>
             <input type="file" id="camera-input" accept="image/*" multiple style="display: none;">
         </div>
-        <div class="photo-preview-container" id="preview-box"></div>
 
-        <!-- 4. CZĘŚCI ZAMIENNE -->
         <div class="section-title">4. Wykorzystane części zamienne i materiały eksploatacyjne</div>
         <table class="list-table">
             <thead>
@@ -281,13 +300,12 @@
             <tbody id="parts-rows"></tbody>
         </table>
 
-        <!-- 5. TESTY KOŃCOWE -->
         <div class="section-title">5. Testy końcowe i status urządzenia po naprawie</div>
         <table class="list-table">
             <tr>
                 <td style="width: 30%; font-weight: bold; background-color: #f8fafc;">Połączenie z systemem / backendem:</td>
                 <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
-                <td><input type="text" placeholder="Uwagi..."></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Uwagi do komunikacji..."></div></td>
             </tr>
             <tr>
                 <td style="font-weight: bold; background-color: #f8fafc;">Próbna sesja ładowania (test EV):</td>
@@ -297,25 +315,23 @@
             <tr>
                 <td style="font-weight: bold; background-color: #f8fafc;">STATUS KOŃCOWY URZĄDZENIA:</td>
                 <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> SPRAWNA</label><br><label><input type="checkbox"> WYM. PRAC</label></td>
-                <td><input type="text" placeholder="Dalsze zalecenia..."></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Dalsze zalecenia..."></div></td>
             </tr>
         </table>
 
-        <!-- PODPISY -->
-        <table style="width: 100%; margin-top: 25px; border-collapse: collapse;">
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
             <tr>
                 <td style="width: 50%; text-align: center; padding: 0 15px;">
-                    <input type="text" placeholder="Podpis technika..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0;">
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis Serwisanta</div>
+                    <div class="input-field" contenteditable="true" placeholder="Wpisz nazwisko..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis i pieczęć Serwisanta</div>
                 </td>
                 <td style="width: 50%; text-align: center; padding: 0 15px;">
-                    <input type="text" placeholder="Podpis przedstawiciela..." style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0;">
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis przedstawiciela stacji</div>
+                    <div class="input-field" contenteditable="true" placeholder="Wpisz nazwisko..." style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis przedstawiciela stacji / Klienta</div>
                 </td>
             </tr>
         </table>
 
-        <!-- STOPKA -->
         <div class="corporate-footer">
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
@@ -331,6 +347,39 @@
         </div>
     </div>
 
+    <!-- WIRTUALNY PODZIAŁ STRON (WIDOCZNY TYLKO NA EKRANIE) -->
+    <div class="page-break"></div>
+
+    <!-- STRONA 2: KARTA DOKUMENTACJI FOTOGRAFICZNEJ -->
+    <div class="document-container photo-section-anchor">
+        <table class="brand-header">
+            <tr>
+                <td class="brand-logo-cell">
+                    <div class="brand-logo">A X O N  C H A R G E R</div>
+                    <div class="brand-subtitle">let's talk</div>
+                </td>
+                <td class="brand-contacts-cell">
+                    <strong>Ekoenergetyka-Polska S.A.</strong><br>
+                    Dokumentacja fotograficzna serwisu
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-title" style="text-align: left; padding-left: 10px;">ZAŁĄCZNIK: ZDJĘCIA Z INTERWENCJI SERWISOWEJ</div>
+        
+        <!-- Tu wskoczą zdjęcia robione telefonem -->
+        <div class="photo-grid" id="preview-box"></div>
+
+        <div class="corporate-footer" style="margin-top: 80mm;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a;">ekoenergetyka.com</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
     <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF / Drukuj</button>
 
     <script>
@@ -339,11 +388,11 @@
             diagBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
-                    <td><input type="text" placeholder="Obszar kontroli..."></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Wpisz obszar kontroli..."></div></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
-                    <td><input type="text" placeholder="Uwagi..."></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
                 </tr>
             `;
         }
@@ -353,14 +402,13 @@
             partsBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
-                    <td><input type="text" placeholder="Nazwa części..."></td>
-                    <td><input type="text" placeholder="S/N..."></td>
-                    <td style="text-align: center;"><input type="text" style="text-align: center;" placeholder="szt."></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Nazwa części..."></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="S/N..."></div></td>
+                    <td style="text-align: center;"><div class="input-field" contenteditable="true" placeholder="szt."></div></td>
                 </tr>
             `;
         }
 
-        // Poprawiony skrypt multi-uploadu zdjęć
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
