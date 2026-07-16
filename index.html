@@ -16,9 +16,10 @@
             padding: 0;
             color: #1e293b;
             font-size: 8.5pt;
-            line-height: 1.3;
+            line-height: 1.25;
         }
 
+        /* --- STYL EKRANU (SMARTFON / TABLET / PC) --- */
         @media screen {
             body {
                 background-color: #f1f5f9;
@@ -31,13 +32,13 @@
                 width: 100%;
                 max-width: 210mm;
                 min-height: 297mm;
-                padding: 12mm 15mm;
+                padding: 10mm 15mm;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
                 position: relative;
             }
             input[type="text"], textarea {
                 width: 100%;
-                padding: 6px;
+                padding: 5px;
                 border: 1px solid #cbd5e1;
                 border-radius: 4px;
                 background-color: #f8fafc;
@@ -53,9 +54,9 @@
             .photo-controls {
                 background-color: #f8fafc;
                 border: 2px dashed #cbd5e1;
-                padding: 15px;
+                padding: 12px;
                 text-align: center;
-                margin-top: 10px;
+                margin-top: 8px;
                 border-radius: 6px;
             }
             .file-input-btn {
@@ -74,7 +75,7 @@
                 background-color: #0f172a;
                 color: white;
                 border: none;
-                padding: 16px 24px;
+                padding: 14px 24px;
                 font-size: 14px;
                 font-weight: bold;
                 border-radius: 50px;
@@ -82,16 +83,45 @@
                 box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
                 z-index: 1000;
             }
+            .photo-preview-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 8px;
+                justify-content: center;
+            }
+            .photo-wrapper {
+                position: relative;
+                width: 140px;
+                height: 105px;
+                border: 1px solid #cbd5e1;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .photo-wrapper img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
 
+        /* --- STYL DLA WYDRUKU (IDEALNY PDF CYFROWY) --- */
         @media print {
             @page {
                 size: A4;
-                margin: 10mm 12mm 22mm 12mm;
+                margin: 8mm 12mm 15mm 12mm;
             }
-            body { background-color: #ffffff !important; }
-            .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
-            .print-btn, .photo-controls { display: none !important; }
+            body { 
+                background-color: #ffffff !important; 
+            }
+            .document-container { 
+                width: 100% !important; 
+                padding: 0 !important; 
+                box-shadow: none !important; 
+            }
+            .print-btn, .photo-controls { 
+                display: none !important; 
+            }
             input[type="text"], textarea {
                 border: none !important;
                 background-color: transparent !important;
@@ -99,31 +129,57 @@
                 color: #000000 !important;
                 font-weight: bold !important;
             }
-            .photo-preview-container img {
-                max-width: 100% !important;
-                height: auto !important;
-                margin-top: 15px !important;
-                border-radius: 4px;
+            textarea {
+                display: block;
+                white-space: pre-wrap;
+            }
+            /* Wymuszenie kompaktowej siatki zdjęć na PDF */
+            .photo-preview-container {
+                display: block !important;
+                text-align: left !important;
+                margin-top: 5px !important;
+                page-break-inside: avoid !important;
+            }
+            .photo-wrapper {
+                display: inline-block !important;
+                width: 32% !important; /* Trzy zdjęcia obok siebie mieszczą się idealnie */
+                height: 110px !important;
+                margin-right: 1% !important;
+                margin-bottom: 5px !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 4px !important;
+                page-break-inside: avoid !important;
+            }
+            .photo-wrapper img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+            /* Zapobieganie rozbijaniu ważnych sekcji na strony */
+            table, .section-title, .signatures, .corporate-footer {
+                page-break-inside: avoid !important;
             }
         }
 
         /* --- FORMATKA PREMIUM AXON --- */
-        .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+        .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { margin: 2px 0 0 0; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; }
         .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
-        .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; }
+        
+        .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 5px 10px; border-radius: 4px; margin-bottom: 8px; }
         .doc-title-bar table { width: 100%; border-collapse: collapse; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
-        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 12px; margin-bottom: 5px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
-        table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
-        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 5px 6px; vertical-align: middle; }
+        
+        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
+        
+        table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1 !important; padding: 4px 6px; vertical-align: middle; }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
-        .photo-preview-container { text-align: center; width: 100%; }
-        .photo-preview-container img { max-width: 250px; height: auto; margin-top: 10px; border: 1px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .corporate-footer { margin-top: 30px; border-top: 1px solid #e2e8f0 !important; padding-top: 6px; font-size: 6pt; color: #718096; }
+        
+        .corporate-footer { margin-top: 15px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
     </style>
 </head>
 <body>
@@ -200,14 +256,14 @@
             <tbody id="diag-rows"></tbody>
         </table>
 
-        <!-- 3. OPIS PRAC i ZDJĘCIE -->
+        <!-- 3. OPIS PRAC i MULTI-FOTO -->
         <div class="section-title">3. Szczegółowy opis prac oraz dokumentacja fotograficzna</div>
-        <textarea rows="3" placeholder="Opisz wykonane czynności..."></textarea>
+        <textarea rows="3" placeholder="Opisz wykonane czynności serwisowe..."></textarea>
         
-        <!-- Moduł fotograficzny działający na smartfonie -->
+        <!-- Dodawanie wielu zdjęć bezpośrednio z aparatu telefonu -->
         <div class="photo-controls">
-            <label for="camera-input" class="file-input-btn">📸 Zrób / Dodaj zdjęcie usterki</label>
-            <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
+            <label for="camera-input" class="file-input-btn">📸 Dodaj zdjęcia (zrób aparatem)</label>
+            <input type="file" id="camera-input" accept="image/*" multiple style="display: none;">
         </div>
         <div class="photo-preview-container" id="preview-box"></div>
 
@@ -246,7 +302,7 @@
         </table>
 
         <!-- PODPISY -->
-        <table style="width: 100%; margin-top: 30px; border-collapse: collapse;">
+        <table style="width: 100%; margin-top: 25px; border-collapse: collapse;">
             <tr>
                 <td style="width: 50%; text-align: center; padding: 0 15px;">
                     <input type="text" placeholder="Podpis technika..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0;">
@@ -304,18 +360,24 @@
             `;
         }
 
-        // Skrypt obsługi aparatu fotograficznego
+        // Poprawiony skrypt multi-uploadu zdjęć
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
         cameraInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    previewBox.innerHTML = `<img src="${event.target.result}" alt="Zdjęcie usterki">`;
-                };
-                reader.readAsDataURL(file);
+            const files = e.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'photo-wrapper';
+                        wrapper.innerHTML = `<img src="${event.target.result}">`;
+                        previewBox.appendChild(wrapper);
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
         });
     </script>
