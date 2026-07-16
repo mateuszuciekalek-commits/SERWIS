@@ -2,15 +2,14 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <!-- TEN TAG NAPRAWIA RENDEROWANIE NA TELEFONIE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
-        /* Globalne i bezwzględne reguły łamania tekstów */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             box-sizing: border-box;
-            word-break: break-all !important; /* Bezwzględne łamanie długich słów */
-            overflow-wrap: break-word !important;
         }
 
         body {
@@ -22,7 +21,15 @@
             line-height: 1.3;
         }
 
-        /* Styl dla pól edytowalnych */
+        /* OSTATECZNE WYMUSZENIE ŁAMANIA TEKSTU */
+        .input-field, td {
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            line-break: anywhere !important; /* Wymusza łamanie nawet w środku słowa, jeśli brakuje miejsca */
+            white-space: pre-wrap !important;
+        }
+
         .input-field {
             display: block !important;
             width: 100% !important;
@@ -33,16 +40,12 @@
             font-size: 8.5pt;
             color: #0f172a;
             outline: none;
-            white-space: pre-wrap !important; /* Zachowanie enterów i spacji */
-            word-break: break-all !important;
-            overflow-wrap: break-word !important;
         }
 
-        /* --- STYL EKRANU (SMARTFON / PC) --- */
         @media screen {
             body {
                 background-color: #f1f5f9;
-                padding: 20px;
+                padding: 10px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -51,7 +54,7 @@
                 background-color: #ffffff;
                 width: 100%;
                 max-width: 210mm;
-                padding: 12mm 15mm;
+                padding: 10mm;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
                 position: relative;
                 margin-bottom: 20px;
@@ -74,7 +77,7 @@
                 position: relative;
             }
             .page-break::after {
-                content: "STRONA 2 (ZAŁĄCZNIK FOTOGRAFICZNY)";
+                content: "STRONA 2 (ZDJĘCIA)";
                 position: absolute;
                 top: -10px;
                 left: 50%;
@@ -97,7 +100,7 @@
             .file-input-btn {
                 background-color: #0284c7;
                 color: white;
-                padding: 8px 16px;
+                padding: 10px 20px;
                 border-radius: 4px;
                 cursor: pointer;
                 font-weight: bold;
@@ -106,13 +109,12 @@
             .photo-grid {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 12px;
+                gap: 10px;
                 margin-top: 15px;
-                justify-content: flex-start;
             }
             .photo-wrapper {
-                width: calc(33.33% - 8px);
-                height: 140px;
+                width: calc(50% - 5px); /* Po 2 zdjęcia w rzędzie na telefonie */
+                height: 120px;
                 border: 1px solid #cbd5e1;
                 border-radius: 4px;
                 overflow: hidden;
@@ -122,9 +124,23 @@
                 height: 100%;
                 object-fit: cover;
             }
+            .print-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #0f172a;
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+                z-index: 1000;
+            }
         }
 
-        /* --- STYL WYDRUKU PDF (2 STRONY) --- */
         @media print {
             @page {
                 size: A4;
@@ -162,35 +178,25 @@
                 border-radius: 4px !important;
                 page-break-inside: avoid !important;
             }
-            .photo-wrapper:nth-child(2n) {
-                margin-right: 0 !important;
-            }
-            .photo-wrapper img {
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: cover !important;
-            }
-            table, .section-title, .signatures, .corporate-footer {
-                page-break-inside: avoid !important;
-            }
+            .photo-wrapper:nth-child(2n) { margin-right: 0 !important; }
+            .photo-wrapper img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+            table, .section-title, .signatures, .corporate-footer { page-break-inside: avoid !important; }
         }
 
-        /* --- LOGO I STOPKA AXON --- */
+        /* FORMATKA */
         .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { margin: 2px 0 0 0; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; }
         .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
-        
         .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 5px 10px; border-radius: 4px; margin-bottom: 8px; }
         .doc-title-bar table { width: 100%; border-collapse: collapse; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
-        
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
-        /* Zablokowanie szerokości tabel oraz wymuszenie normalnego zachowania tekstu */
         table.form-table, table.list-table { 
             width: 100% !important; 
+            max-width: 100% !important;
             border-collapse: collapse; 
             margin-bottom: 4px; 
             table-layout: fixed !important; 
@@ -200,12 +206,9 @@
             padding: 4px 6px; 
             vertical-align: middle; 
             overflow: hidden !important;
-            white-space: normal !important; /* RESET DLA PRZEGLĄDAREK MOBILNYCH - ZEZWALA NA ZAWINIĘCIA */
-            word-break: break-all !important; /* Wymuszenie łamania na poziomie komórki */
         }
         .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
         table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
-        
         .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
     </style>
 </head>
@@ -213,7 +216,6 @@
 
     <!-- STRONA 1 -->
     <div class="document-container">
-        
         <table class="brand-header">
             <tr>
                 <td class="brand-logo-cell">
@@ -234,7 +236,7 @@
                     <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
                     <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1; vertical-align: middle;">
                         <span style="display: inline-block; vertical-align: middle;">Nr zlecenia:</span>
-                        <div class="input-field" contenteditable="true" style="width: 100px; display: inline-block; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0;"></div>
+                        <div class="input-field" contenteditable="true" style="width: 100px !important; display: inline-block !important; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0;"></div>
                     </td>
                 </tr>
             </table>
@@ -270,12 +272,12 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 6%; text-align: center;">Lp.</th>
-                    <th style="width: 44%;">Obszar kontroli (uzupełnia technik)</th>
+                    <th style="width: 8%; text-align: center;">Lp.</th>
+                    <th style="width: 36%;">Obszar kontroli</th>
                     <th style="width: 7%; text-align: center;">OK</th>
                     <th style="width: 7%; text-align: center;">NOK</th>
                     <th style="width: 7%; text-align: center;">N/D</th>
-                    <th style="width: 29%;">Opis usterki / Wyniki pomiarów / Uwagi</th>
+                    <th style="width: 35%;">Opis usterki / Wyniki pomiarów</th>
                 </tr>
             </thead>
             <tbody id="diag-rows"></tbody>
@@ -285,7 +287,7 @@
         <div class="input-field" contenteditable="true" placeholder="Opisz przebieg naprawy..." style="min-height: 55px; border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 6px;"></div>
 
         <div class="photo-controls">
-            <label for="camera-input" class="file-input-btn">📸 Kliknij, aby zrobić / dodać zdjęcia usterki</label>
+            <label for="camera-input" class="file-input-btn">📸 Kliknij, aby dodać zdjęcia usterki</label>
             <input type="file" id="camera-input" accept="image/*" multiple style="display: none;">
         </div>
 
@@ -293,8 +295,8 @@
         <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 6%; text-align: center;">Lp.</th>
-                    <th style="width: 50%;">Nazwa komponentu / Kod części</th>
+                    <th style="width: 8%; text-align: center;">Lp.</th>
+                    <th style="width: 48%;">Nazwa komponentu / Kod części</th>
                     <th style="width: 32%;">Numer seryjny części</th>
                     <th style="width: 12%; text-align: center;">Ilość</th>
                 </tr>
@@ -307,7 +309,7 @@
             <tr>
                 <td style="width: 30%; font-weight: bold; background-color: #f8fafc;">Połączenie z systemem / backendem:</td>
                 <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
-                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Uwagi do komunikacji..."></div></td>
+                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
             </tr>
             <tr>
                 <td style="font-weight: bold; background-color: #f8fafc;">Próbna sesja ładowania (test EV):</td>
@@ -323,12 +325,12 @@
 
         <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
             <tr>
-                <td style="width: 50%; text-align: center; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" placeholder="Wpisz nazwisko..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
+                <td style="width: 50%; text-align: center; padding: 0 15px; border:none !important;">
+                    <div class="input-field" contenteditable="true" placeholder="Podpis..." style="text-align: center; font-family: 'Brush Script MT', cursive, sans-serif; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
                     <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis i pieczęć Serwisanta</div>
                 </td>
-                <td style="width: 50%; text-align: center; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" placeholder="Wpisz nazwisko..." style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
+                <td style="width: 50%; text-align: center; padding: 0 15px; border:none !important;">
+                    <div class="input-field" contenteditable="true" placeholder="Podpis..." style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius:0; background: transparent;"></div>
                     <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis przedstawiciela stacji / Klienta</div>
                 </td>
             </tr>
@@ -337,11 +339,11 @@
         <div class="corporate-footer">
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; padding-bottom: 2px;">All you need</td>
-                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; vertical-align: bottom;">ekoenergetyka.com</td>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; padding-bottom: 2px; border:none !important;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; vertical-align: bottom; border:none !important;">ekoenergetyka.com</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="color: #64748b; font-size: 6pt; line-height: 1.3;">
+                    <td colspan="2" style="color: #64748b; font-size: 6pt; line-height: 1.3; border:none !important;">
                         Ekoenergetyka-Polska S.A. - Właściciel marki Axon Charger z siedzibą w Zielonej Górze, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, Sąd Rejonowy w Zielonej Górze, VIII Wydział Gospodarczy Krajowego Rejestru Sądowego, KRS: 0000846229, NIP: 9731013938, kapitał zakładowy: 323.889 PLN, kapitał wpłacony: 323.889 PLN, Numer BDO: 000014716.
                     </td>
                 </tr>
@@ -372,14 +374,14 @@
         <div class="corporate-footer" style="margin-top: 80mm;">
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a;">All you need</td>
-                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a;">ekoenergetyka.com</td>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; border:none !important;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; border:none !important;">ekoenergetyka.com</td>
                 </tr>
             </table>
         </div>
     </div>
 
-    <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF / Drukuj</button>
+    <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF</button>
 
     <script>
         const diagBody = document.getElementById('diag-rows');
@@ -387,7 +389,7 @@
             diagBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
-                    <td><div class="input-field" contenteditable="true" placeholder="Wpisz obszar kontroli..."></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Obszar..."></div></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
                     <td style="text-align: center;"><input type="checkbox"></td>
