@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=850, user-scalable=yes">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
         * {
@@ -18,20 +18,18 @@
             color: #1e293b;
             font-size: 8.5pt;
             line-height: 1.3;
+            background-color: #f1f5f9;
         }
 
         .input-field, td {
-            word-wrap: break-word !important;
-            word-break: break-word !important;
             overflow-wrap: break-word !important;
-            line-break: anywhere !important; 
+            word-wrap: break-word !important;
             white-space: pre-wrap !important;
         }
 
         .input-field {
             display: block !important;
             width: 100% !important;
-            max-width: 100% !important;
             min-height: 18px;
             padding: 2px 4px;
             font-family: inherit;
@@ -40,19 +38,18 @@
             outline: none;
         }
 
+        /* --- STYL EKRANU --- */
         @media screen {
             body {
-                background-color: #f1f5f9;
-                padding: 10px;
+                padding: 20px 0;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
             .document-container {
                 background-color: #ffffff;
-                width: 100%;
-                max-width: 210mm;
-                padding: 10mm;
+                width: 210mm;
+                padding: 10mm 15mm;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
                 position: relative;
                 margin-bottom: 20px;
@@ -70,8 +67,7 @@
             .page-break {
                 border-top: 3px dashed #64748b;
                 margin: 20px 0;
-                width: 100%;
-                max-width: 210mm;
+                width: 210mm;
                 position: relative;
             }
             .page-break::after {
@@ -104,29 +100,6 @@
                 font-weight: bold;
                 display: inline-block;
             }
-            
-            /* SIATKA ZDJĘĆ NA EKRANIE (BEZ UCIĘĆ I ZAOKRĄGLEŃ) */
-            .photo-grid {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 2%;
-                margin-top: 15px;
-            }
-            .photo-wrapper {
-                width: 49%; 
-                border: 1px solid #cbd5e1;
-                padding: 5px;
-                margin-bottom: 15px;
-                background-color: #f8fafc;
-                height: auto; /* ZDJĘCIE DYKTUJE WYSOKOŚĆ */
-            }
-            .photo-wrapper img {
-                width: 100%;
-                height: auto;
-                display: block;
-                margin: 0 auto;
-            }
-            
             .print-btn {
                 position: fixed;
                 bottom: 20px;
@@ -134,54 +107,14 @@
                 background-color: #0f172a;
                 color: white;
                 border: none;
-                padding: 15px 25px;
+                padding: 15px 30px;
                 font-size: 16px;
                 font-weight: bold;
                 border-radius: 50px;
                 cursor: pointer;
-                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
+                box-shadow: 0 4px 15px rgba(15, 23, 42, 0.4);
                 z-index: 1000;
             }
-        }
-
-        /* --- STYL TYLKO DLA TELEFONÓW (RESPONSYWNOŚĆ) --- */
-        @media screen and (max-width: 768px) {
-            .brand-header td {
-                display: block;
-                width: 100% !important;
-                text-align: center !important;
-                border-left: none !important;
-                padding: 0 !important;
-                margin-bottom: 10px;
-            }
-            .brand-logo { font-size: 24pt; letter-spacing: 2px; }
-            .doc-title-bar table, .doc-title-bar tbody, .doc-title-bar tr, .doc-title-bar td {
-                display: block;
-                width: 100%;
-                text-align: center !important;
-            }
-            .doc-title-bar h2 { margin-bottom: 5px; }
-            table.form-table, table.list-table, table.form-table tbody, table.list-table tbody, table.form-table tr, table.list-table tr {
-                display: block;
-                width: 100% !important;
-            }
-            table.form-table td, table.list-table td {
-                display: block;
-                width: 100% !important;
-                border: none !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                padding: 8px 0;
-            }
-            table.list-table th { display: none; }
-            table.list-table td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                display: block;
-                margin-bottom: 4px;
-                color: #0284c7;
-            }
-            .label { width: 100% !important; background: transparent !important; padding-left: 0 !important; padding-bottom: 2px !important; color: #0284c7; }
-            .mobile-checkbox-row { display: flex; justify-content: space-around; padding: 10px 0; }
         }
 
         /* --- STYL WYDRUKU PDF --- */
@@ -190,7 +123,7 @@
                 size: A4;
                 margin: 8mm 12mm 15mm 12mm;
             }
-            body { background-color: #ffffff !important; }
+            body { background-color: #ffffff !important; padding: 0 !important; }
             .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
             .print-btn, .photo-controls, .page-break { display: none !important; }
             
@@ -202,69 +135,60 @@
                 box-shadow: none !important;
                 color: #000000 !important;
                 font-weight: bold !important;
-                font-size: 8.5pt !important; 
-                min-height: auto !important; 
             }
-
-            table.form-table, table.list-table { display: table !important; width: 100% !important; table-layout: fixed !important; border-collapse: collapse; margin-bottom: 4px; }
-            table.form-table tbody, table.list-table tbody { display: table-row-group !important; }
-            table.form-table tr, table.list-table tr { display: table-row !important; }
-            table.form-table td, table.list-table td, table.list-table th { display: table-cell !important; width: auto !important; border: 1px solid #cbd5e1 !important; padding: 4px 6px !important; vertical-align: middle !important; overflow: hidden !important; }
-            table.list-table th { display: table-cell !important; background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
-            table.list-table td::before { display: none !important; }
-            .label { display: table-cell !important; background-color: #f8fafc !important; font-weight: bold; color: #475569; font-size: 7.5pt; }
-            .mobile-checkbox-row { display: inline-block; padding: 0; }
-            .brand-header td { display: table-cell !important; text-align: left !important; }
-            .brand-contacts-cell { text-align: right !important; border-left: 2px solid #D2E300 !important; padding-left: 12px !important; }
-            .doc-title-bar table, .doc-title-bar tbody, .doc-title-bar tr, .doc-title-bar td { display: table !important; width: 100% !important; }
-            .doc-title-bar td { display: table-cell !important; }
-            .doc-title-bar td:nth-child(2) { text-align: right !important; }
 
             .photo-section-anchor {
                 page-break-before: always !important;
                 margin-top: 20mm !important;
             }
-            
-            /* BEZWZGLĘDNA SIATKA ZDJĘĆ DLA PDF (BEZ UCIĘĆ I ZAOKRĄGLEŃ) */
-            .photo-grid {
-                display: block !important;
-                width: 100% !important;
-            }
-            .photo-wrapper {
-                float: left !important;
-                width: 48% !important; 
-                height: auto !important; /* BRAK SZTYWNEJ WYSOKOŚCI, ZDJĘCIE DECYDUJE */
-                margin-right: 2% !important;
-                margin-bottom: 20px !important;
-                border: 1px solid #cbd5e1 !important;
-                padding: 5px !important;
-                background-color: #f8fafc !important;
-                page-break-inside: avoid !important;
-            }
-            .photo-wrapper:nth-child(2n) {
-                float: right !important; 
-                margin-right: 0 !important;
-            }
-            .photo-wrapper img {
-                width: 100% !important;
-                height: auto !important; 
-                display: block !important;
-                margin: 0 auto !important;
-            }
             table, .section-title, .signatures, .corporate-footer { page-break-inside: avoid !important; }
         }
 
-        /* FORMATKA */
+        /* --- SUROWE ZDJĘCIA (BEZ PRZYCINANIA) --- */
+        .photo-grid {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            text-align: left;
+        }
+        
+        .uploaded-photo {
+            display: inline-block !important;
+            width: 48% !important; /* Szerokość połowy strony */
+            height: auto !important; /* Pełna, naturalna wysokość zdjęcia */
+            margin: 0 1% 15px 0 !important;
+            vertical-align: top !important;
+            border: 2px solid #0f172a !important; /* Zwykła, ostra, czarna ramka */
+            border-radius: 0 !important; /* Zero zaokrągleń */
+            page-break-inside: avoid !important;
+        }
+
+        /* --- FORMATKA AXON --- */
         .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { margin: 2px 0 0 0; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; }
         .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
+        
         .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 5px 10px; border-radius: 4px; margin-bottom: 8px; }
         .doc-title-bar table { width: 100%; border-collapse: collapse; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
+        
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
         
+        table.form-table, table.list-table { 
+            width: 100% !important; 
+            border-collapse: collapse; 
+            margin-bottom: 4px; 
+            table-layout: fixed !important; 
+        }
+        table.form-table td, table.list-table td, table.list-table th { 
+            border: 1px solid #cbd5e1 !important; 
+            padding: 4px 6px; 
+            vertical-align: middle; 
+        }
+        .label { background-color: #f8fafc !important; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
+        table.list-table th { background-color: #f1f5f9 !important; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
         .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
     </style>
 </head>
@@ -292,7 +216,7 @@
                     <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
                     <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1; vertical-align: middle;">
                         <span style="display: inline-block; vertical-align: middle;">Nr zlecenia:</span>
-                        <div class="input-field" contenteditable="true" style="width: 100px !important; display: inline-block !important; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0; min-height: 18px;"></div>
+                        <div class="input-field" contenteditable="true" style="width: 100px !important; display: inline-block !important; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0;"></div>
                     </td>
                 </tr>
             </table>
@@ -363,35 +287,19 @@
         <div class="section-title">5. Testy końcowe i status urządzenia po naprawie</div>
         <table class="list-table">
             <tr>
-                <td class="label" style="width: 30%; vertical-align: middle;">Połączenie z systemem:</td>
-                <td data-label="Status systemu:" style="width: 20%; text-align: center; vertical-align: middle;">
-                    <div class="mobile-checkbox-row">
-                        <label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label>
-                    </div>
-                </td>
-                <td data-label="Uwagi:"><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
+                <td style="width: 30%; font-weight: bold; background-color: #f8fafc; vertical-align: middle;">Połączenie z systemem / backendem:</td>
+                <td style="width: 20%; text-align: center; vertical-align: middle;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
+                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
             </tr>
             <tr>
-                <td class="label" style="vertical-align: middle;">Próbna sesja ładowania:</td>
-                <td data-label="Wynik ładowania:" style="text-align: center; vertical-align: middle;">
-                    <div class="mobile-checkbox-row">
-                        <label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label>
-                    </div>
-                </td>
-                <td data-label="Złącza:">
-                    <div class="mobile-checkbox-row">
-                        <label><input type="checkbox"> Złącze 1: OK</label> &nbsp; <label><input type="checkbox"> Złącze 2: OK</label>
-                    </div>
-                </td>
+                <td style="font-weight: bold; background-color: #f8fafc; vertical-align: middle;">Próbna sesja ładowania (test EV):</td>
+                <td style="text-align: center; vertical-align: middle;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
+                <td style="vertical-align: middle;"><label><input type="checkbox"> Złącze 1: OK</label> &nbsp; <label><input type="checkbox"> Złącze 2: OK</label></td>
             </tr>
             <tr>
-                <td class="label" style="vertical-align: middle;">STATUS KOŃCOWY:</td>
-                <td data-label="Ocena:" style="text-align: center; font-weight: bold; vertical-align: middle;">
-                    <div class="mobile-checkbox-row">
-                        <label><input type="checkbox"> SPRAWNA</label> &nbsp; <label><input type="checkbox"> WYM. PRAC</label>
-                    </div>
-                </td>
-                <td data-label="Zalecenia:"><div class="input-field" contenteditable="true" placeholder="Dalsze zalecenia..."></div></td>
+                <td style="font-weight: bold; background-color: #f8fafc; vertical-align: middle;">STATUS KOŃCOWY URZĄDZENIA:</td>
+                <td style="text-align: center; font-weight: bold; vertical-align: middle;"><label><input type="checkbox"> SPRAWNA</label><br><label><input type="checkbox"> WYM. PRAC</label></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Dalsze zalecenia..."></div></td>
             </tr>
         </table>
 
@@ -462,16 +370,12 @@
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
                 <tr>
-                    <td data-label="Lp:" style="text-align: center; font-weight: bold; vertical-align: middle; color:#0284c7;">${i}</td>
-                    <td data-label="Obszar kontroli:"><div class="input-field" contenteditable="true" placeholder="Wpisz obszar..."></div></td>
-                    <td data-label="Status:" style="text-align: center; vertical-align: middle;">
-                        <div class="mobile-checkbox-row">
-                            <label>OK <input type="checkbox"></label> &nbsp; 
-                            <label>NOK <input type="checkbox"></label> &nbsp; 
-                            <label>N/D <input type="checkbox"></label>
-                        </div>
-                    </td>
-                    <td data-label="Uwagi:"><div class="input-field" contenteditable="true" placeholder="Wyniki/Uwagi..."></div></td>
+                    <td style="text-align: center; font-weight: bold; vertical-align: middle;">${i}</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Wpisz obszar..."></div></td>
+                    <td style="text-align: center; vertical-align: middle;"><input type="checkbox"></td>
+                    <td style="text-align: center; vertical-align: middle;"><input type="checkbox"></td>
+                    <td style="text-align: center; vertical-align: middle;"><input type="checkbox"></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
                 </tr>
             `;
         }
@@ -480,10 +384,10 @@
         for (let i = 1; i <= 3; i++) {
             partsBody.innerHTML += `
                 <tr>
-                    <td data-label="Lp:" style="text-align: center; font-weight: bold; vertical-align: middle; color:#0284c7;">${i}</td>
-                    <td data-label="Nazwa komponentu:"><div class="input-field" contenteditable="true" placeholder="Nazwa części..."></div></td>
-                    <td data-label="Numer seryjny (S/N):"><div class="input-field" contenteditable="true" placeholder="S/N..."></div></td>
-                    <td data-label="Ilość (szt):" style="text-align: center; vertical-align: middle;"><div class="input-field" contenteditable="true" placeholder="szt." style="text-align: center;"></div></td>
+                    <td style="text-align: center; font-weight: bold; vertical-align: middle;">${i}</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Nazwa części..."></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="S/N..."></div></td>
+                    <td style="text-align: center; vertical-align: middle;"><div class="input-field" contenteditable="true" placeholder="szt." style="text-align: center;"></div></td>
                 </tr>
             `;
         }
@@ -498,17 +402,17 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        const wrapper = document.createElement('div');
-                        wrapper.className = 'photo-wrapper';
-                        wrapper.innerHTML = `<img src="${event.target.result}">`;
-                        previewBox.appendChild(wrapper);
+                        // Tworzymy bezpośrednio surowy obraz - bez żadnych ukrytych pojemników HTML (div)
+                        const img = document.createElement('img');
+                        img.className = 'uploaded-photo';
+                        img.src = event.target.result;
+                        previewBox.appendChild(img);
                     };
                     reader.readAsDataURL(file);
                 }
             }
         });
 
-        // SKRYPT NAPRAWIAJĄCY ZAPIS DO PDF NA KOMPUTERACH 
         window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
