@@ -2,6 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <!-- Wymuszony stały widok A4 na każdym urządzeniu. Koniec ze zgniataniem! -->
     <meta name="viewport" content="width=850, user-scalable=yes">
     <title>Protokół Serwisowy Axon Charger</title>
     <style>
@@ -21,10 +22,11 @@
             background-color: #f1f5f9;
         }
 
-        /* Twarde zapobieganie rozrywaniu tabeli */
+        /* Twarde zapobieganie rozrywaniu tabeli i łamanie długich tekstów */
         td {
             white-space: normal !important;
             word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
         }
 
         .input-field {
@@ -147,12 +149,12 @@
             table, .section-title, .signatures, .corporate-footer { page-break-inside: avoid !important; }
         }
 
-        /* --- ZDJĘCIA --- */
+        /* --- SUROWE ZDJĘCIA --- */
         .photo-grid {
             display: block !important;
             width: 100% !important;
             margin-top: 15px !important;
-            font-size: 0 !important; /* Usuwa białe spacje między elementami inline-block */
+            font-size: 0 !important; 
         }
         
         .uploaded-photo {
@@ -374,6 +376,7 @@
     <button class="print-btn" onclick="window.print()">🖨️ Zapisz PDF</button>
 
     <script>
+        // TABELA DIAGNOSTYCZNA - Zwróć uwagę, że są tu równo 3 osobne kolumny na checkboxy
         const diagBody = document.getElementById('diag-rows');
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
