@@ -40,7 +40,6 @@
             outline: none;
         }
 
-        /* --- STYL EKRANU (WIDOK OGÓLNY) --- */
         @media screen {
             body {
                 background-color: #f1f5f9;
@@ -52,19 +51,16 @@
             .document-container {
                 background-color: #ffffff;
                 width: 100%;
-                max-width: 210mm; /* Wymusza szerokość PC na dużych ekranach */
+                max-width: 210mm;
                 padding: 10mm;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
                 position: relative;
                 margin-bottom: 20px;
-                overflow-x: hidden;
             }
             .input-field {
                 border: 1px solid #cbd5e1;
                 border-radius: 3px;
                 background-color: #f8fafc;
-                min-height: 25px; /* Lepsze pole do klikania palcem */
-                font-size: 10pt;
             }
             .input-field:focus {
                 border-color: #0284c7;
@@ -108,9 +104,29 @@
                 font-weight: bold;
                 display: inline-block;
             }
-            .photo-grid { display: flex; flex-wrap: wrap; gap: 4%; margin-top: 15px; }
-            .photo-wrapper { width: 48%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; margin-bottom: 15px; background-color: #f8fafc; }
-            .photo-wrapper img { width: 100%; height: auto; max-height: 250px; object-fit: contain; display: block; margin: 0 auto; }
+            
+            /* SIATKA ZDJĘĆ NA EKRANIE (BEZ UCIĘĆ I ZAOKRĄGLEŃ) */
+            .photo-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2%;
+                margin-top: 15px;
+            }
+            .photo-wrapper {
+                width: 49%; 
+                border: 1px solid #cbd5e1;
+                padding: 5px;
+                margin-bottom: 15px;
+                background-color: #f8fafc;
+                height: auto; /* ZDJĘCIE DYKTUJE WYSOKOŚĆ */
+            }
+            .photo-wrapper img {
+                width: 100%;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+            }
+            
             .print-btn {
                 position: fixed;
                 bottom: 20px;
@@ -145,8 +161,6 @@
                 text-align: center !important;
             }
             .doc-title-bar h2 { margin-bottom: 5px; }
-            
-            /* Łamanie tabel na bloki dla wygody wypełniania na telefonie */
             table.form-table, table.list-table, table.form-table tbody, table.list-table tbody, table.form-table tr, table.list-table tr {
                 display: block;
                 width: 100% !important;
@@ -158,9 +172,7 @@
                 border-bottom: 1px solid #e2e8f0 !important;
                 padding: 8px 0;
             }
-            table.list-table th { display: none; /* Ukryj nagłówki tabeli na małym ekranie */ }
-            
-            /* Pseudonagłówki dla tabel z listami na telefonie */
+            table.list-table th { display: none; }
             table.list-table td::before {
                 content: attr(data-label);
                 font-weight: bold;
@@ -169,19 +181,31 @@
                 color: #0284c7;
             }
             .label { width: 100% !important; background: transparent !important; padding-left: 0 !important; padding-bottom: 2px !important; color: #0284c7; }
-            
-            /* Pudełka na checkboksy na telefonie */
             .mobile-checkbox-row { display: flex; justify-content: space-around; padding: 10px 0; }
         }
 
-        /* --- STYL WYDRUKU PDF (PERFEKCYJNE A4 - IGNORUJE WIDOK MOBILNY) --- */
+        /* --- STYL WYDRUKU PDF --- */
         @media print {
-            @page { size: A4; margin: 8mm 12mm 15mm 12mm; }
+            @page {
+                size: A4;
+                margin: 8mm 12mm 15mm 12mm;
+            }
             body { background-color: #ffffff !important; }
             .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
             .print-btn, .photo-controls, .page-break { display: none !important; }
-            .input-field { border: none !important; background-color: transparent !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; color: #000000 !important; font-weight: bold !important; font-size: 8.5pt !important; min-height: auto !important; }
             
+            .input-field {
+                border: none !important;
+                background-color: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                color: #000000 !important;
+                font-weight: bold !important;
+                font-size: 8.5pt !important; 
+                min-height: auto !important; 
+            }
+
             table.form-table, table.list-table { display: table !important; width: 100% !important; table-layout: fixed !important; border-collapse: collapse; margin-bottom: 4px; }
             table.form-table tbody, table.list-table tbody { display: table-row-group !important; }
             table.form-table tr, table.list-table tr { display: table-row !important; }
@@ -196,28 +220,51 @@
             .doc-title-bar td { display: table-cell !important; }
             .doc-title-bar td:nth-child(2) { text-align: right !important; }
 
-            .photo-section-anchor { page-break-before: always !important; margin-top: 20mm !important; }
-            .photo-grid { display: block !important; width: 100% !important; overflow: hidden !important; }
-            .photo-wrapper { float: left !important; width: 48% !important; margin-right: 0 !important; margin-bottom: 20px !important; border: 1px solid #cbd5e1 !important; border-radius: 4px !important; padding: 5px !important; background-color: #f8fafc !important; page-break-inside: avoid !important; }
-            .photo-wrapper:nth-child(2n) { float: right !important; }
-            .photo-wrapper img { width: 100% !important; height: auto !important; max-height: 250px !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; }
+            .photo-section-anchor {
+                page-break-before: always !important;
+                margin-top: 20mm !important;
+            }
+            
+            /* BEZWZGLĘDNA SIATKA ZDJĘĆ DLA PDF (BEZ UCIĘĆ I ZAOKRĄGLEŃ) */
+            .photo-grid {
+                display: block !important;
+                width: 100% !important;
+            }
+            .photo-wrapper {
+                float: left !important;
+                width: 48% !important; 
+                height: auto !important; /* BRAK SZTYWNEJ WYSOKOŚCI, ZDJĘCIE DECYDUJE */
+                margin-right: 2% !important;
+                margin-bottom: 20px !important;
+                border: 1px solid #cbd5e1 !important;
+                padding: 5px !important;
+                background-color: #f8fafc !important;
+                page-break-inside: avoid !important;
+            }
+            .photo-wrapper:nth-child(2n) {
+                float: right !important; 
+                margin-right: 0 !important;
+            }
+            .photo-wrapper img {
+                width: 100% !important;
+                height: auto !important; 
+                display: block !important;
+                margin: 0 auto !important;
+            }
             table, .section-title, .signatures, .corporate-footer { page-break-inside: avoid !important; }
         }
 
-        /* KLASYCZNA FORMATKA (Współdzielona, modyfikowana wyżej przez @media) */
+        /* FORMATKA */
         .brand-header { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
         .brand-logo-cell { width: 45%; vertical-align: top; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { margin: 2px 0 0 0; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; }
-        .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300; padding-left: 12px; }
+        .brand-contacts-cell { width: 55%; text-align: right; font-size: 7.5pt; color: #475569; line-height: 1.3; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
         .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 5px 10px; border-radius: 4px; margin-bottom: 8px; }
         .doc-title-bar table { width: 100%; border-collapse: collapse; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
         .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 1px; }
-        table.form-table, table.list-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; table-layout: fixed; }
-        table.form-table td, table.list-table td, table.list-table th { border: 1px solid #cbd5e1; padding: 4px 6px; vertical-align: middle; overflow: hidden; }
-        .label { background-color: #f8fafc; font-weight: bold; color: #475569; width: 18%; font-size: 7.5pt; }
-        table.list-table th { background-color: #f1f5f9; text-align: left; font-weight: bold; color: #1e293b; font-size: 7.5pt; }
+        
         .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
     </style>
 </head>
@@ -245,7 +292,7 @@
                     <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
                     <td style="text-align: right; font-size: 8.5pt; color: #cbd5e1; vertical-align: middle;">
                         <span style="display: inline-block; vertical-align: middle;">Nr zlecenia:</span>
-                        <div class="input-field" contenteditable="true" style="width: 100px; display: inline-block; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0; min-height: 18px;"></div>
+                        <div class="input-field" contenteditable="true" style="width: 100px !important; display: inline-block !important; vertical-align: middle; color: white !important; background: transparent; border: none; border-bottom: 1px solid #475569; border-radius: 0; padding: 0; min-height: 18px;"></div>
                     </td>
                 </tr>
             </table>
@@ -394,6 +441,8 @@
         </table>
 
         <div class="section-title" style="text-align: left; padding-left: 10px;">ZAŁĄCZNIK: ZDJĘCIA Z INTERWENCJI SERWISOWEJ</div>
+        
+        <!-- SIATKA ZDJĘĆ -->
         <div class="photo-grid" id="preview-box"></div>
 
         <div class="corporate-footer" style="margin-top: 80mm;">
@@ -459,7 +508,7 @@
             }
         });
 
-        // SKRYPT NAPRAWIAJĄCY ZAPIS DO PDF
+        // SKRYPT NAPRAWIAJĄCY ZAPIS DO PDF NA KOMPUTERACH 
         window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
