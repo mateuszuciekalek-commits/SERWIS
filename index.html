@@ -39,16 +39,15 @@
             margin-bottom: 5px;
         }
 
-        /* TABELE DANYCH (Formularze) - Sztywne i łamiące tekst */
-        table.form-table, table.list-table {
+        /* TABLES */
+        table {
             width: 100% !important;
             border-collapse: collapse !important;
             table-layout: fixed !important;
             margin-bottom: 5px;
         }
         
-        table.form-table th, table.form-table td, 
-        table.list-table th, table.list-table td {
+        th, td {
             border: 1px solid #cbd5e1 !important;
             padding: 4px 6px;
             vertical-align: middle;
@@ -57,7 +56,7 @@
             overflow-wrap: break-word !important;
         }
 
-        table.list-table th, table.form-table th {
+        th {
             background-color: #f1f5f9;
             text-align: left;
             font-weight: bold;
@@ -117,10 +116,16 @@
             margin-right: 0 !important;
         }
 
-        /* STYLES */
+        /* BRANDING - POWRÓT DO DZIAŁAJĄCEGO ORYGINAŁU */
+        .brand-header { margin-bottom: 10px; border: none !important; }
+        .brand-header td { border: none !important; padding: 0; }
+        .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
+        .brand-subtitle { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-top: 2px; }
+        .brand-contacts { text-align: right; font-size: 7.5pt; color: #475569; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
+        
         .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
-        .doc-title-bar table { margin: 0; width: 100%; border-collapse: collapse; }
+        .doc-title-bar table { margin: 0; }
         .doc-title-bar td { border: none !important; padding: 0; color: #fff; }
         
         .section-title { 
@@ -135,6 +140,8 @@
             page-break-after: avoid !important;
             break-after: avoid !important;
         }
+        
+        .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
 
         /* UI CONTROLS */
         .controls { text-align: center; margin: 15px 0; background: #f8fafc; border: 2px dashed #0284c7; padding: 15px; border-radius: 6px; }
@@ -189,29 +196,17 @@
     <!-- PAGE 1 -->
     <div class="document-container">
         
-        <!-- NEW CORPORATE HEADER (Cienkie, niepogrubione logo) -->
-        <table style="width: 100%; border: none !important; margin-bottom: 25px; border-collapse: collapse;">
+        <!-- HEADER (Cofnięty do klasycznej wersji) -->
+        <table class="brand-header">
             <tr>
-                <td style="width: 50%; text-align: left; vertical-align: middle; border: none !important; padding: 0;">
-                    <div style="font-family: Arial, sans-serif; font-size: 20pt; font-weight: normal; letter-spacing: 5px; color: #0f172a; line-height: 1;">
-                        &#923; X O N<sup style="font-size: 8pt; letter-spacing: 0; margin-left: 2px;">&reg;</sup>
-                    </div>
-                    <div style="font-family: Arial, sans-serif; font-size: 7pt; font-weight: normal; letter-spacing: 6px; color: #0f172a; margin-top: 4px; padding-left: 2px;">
-                        C H A R G E R
-                    </div>
+                <td style="width: 50%;">
+                    <div class="brand-logo">A X O N  C H A R G E R</div>
+                    <div class="brand-subtitle">let's talk</div>
                 </td>
-                <td style="width: 50%; text-align: right; vertical-align: middle; border: none !important; padding: 0;">
-                    <table style="width: auto; margin-left: auto; border: none !important; border-collapse: collapse;">
-                        <tr>
-                            <td style="text-align: right; padding-right: 12px; border: none !important; font-size: 7.5pt; font-weight: bold; line-height: 1.2; color: #0f172a;">
-                                let's<br>talk
-                            </td>
-                            <td style="border: none !important; border-left: 2px solid #D2E300 !important; padding-left: 12px; text-align: left; font-size: 7.5pt; color: #0f172a; line-height: 1.4;">
-                                +48 68 328 20 68<br>
-                                contact@ekoenergetyka.com
-                            </td>
-                        </tr>
-                    </table>
+                <td class="brand-contacts">
+                    <strong>Ekoenergetyka-Polska S.A.</strong><br>
+                    Tel: +48 68 328 20 68 • Email: contact@ekoenergetyka.com<br>
+                    Web: ekoenergetyka.com • <em>All you need</em>
                 </td>
             </tr>
         </table>
@@ -230,7 +225,7 @@
         <!-- 1. IDENTIFICATION -->
         <div class="keep-together">
             <div class="section-title">1. Device and Order Identification</div>
-            <table class="form-table">
+            <table>
                 <tr>
                     <td class="label" style="width: 16%;">Charger Model:</td>
                     <td style="width: 34%;"><div class="input-field" id="charger-model" contenteditable="true" placeholder="Enter model..."></div></td>
@@ -259,7 +254,7 @@
         <!-- 2. DIAGNOSTICS -->
         <div class="keep-together">
             <div class="section-title">2. Initial Diagnostics and Station Condition Verification</div>
-            <table class="list-table">
+            <table>
                 <thead>
                     <tr>
                         <th style="width: 5%; text-align: center;">No.</th>
@@ -283,7 +278,7 @@
         <!-- 4. SPARE PARTS -->
         <div class="keep-together">
             <div class="section-title">4. Spare Parts and Consumables Used</div>
-            <table class="list-table">
+            <table>
                 <thead>
                     <tr>
                         <th style="width: 5%; text-align: center;">No.</th>
@@ -299,7 +294,7 @@
         <!-- 5. FINAL TESTS -->
         <div class="keep-together">
             <div class="section-title">5. Final Tests and Device Status After Repair</div>
-            <table class="list-table">
+            <table>
                 <tr>
                     <td style="width: 30%; font-weight: bold; background-color: #f8fafc !important;">System / Backend Connection:</td>
                     <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
@@ -320,7 +315,7 @@
 
         <!-- SIGNATURES -->
         <div class="keep-together">
-            <table style="width: 100%; margin-top: 20px; border: none !important; border-collapse: collapse;">
+            <table style="width: 100%; margin-top: 20px; border: none !important;">
                 <tr>
                     <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
                         <div class="input-field" contenteditable="true" style="text-align: center; font-family: cursive; font-size: 12pt; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
@@ -334,28 +329,17 @@
             </table>
         </div>
 
-        <!-- NEW CORPORATE FOOTER -->
-        <div style="margin-top: 40px; border: none !important; padding: 0;">
-            <table style="width: 100%; border: none !important; margin-bottom: 8px; border-collapse: collapse;">
+        <!-- FOOTER (Cofnięty do klasycznej wersji) -->
+        <div class="corporate-footer">
+            <table style="border: none !important; margin: 0;">
                 <tr>
-                    <td style="width: auto; white-space: nowrap !important; font-size: 14pt; color: #0f172a; padding: 0 10px 0 0; border: none !important; line-height: 1;">
-                        All you need
-                    </td>
-                    <td style="width: 100%; vertical-align: bottom; padding: 0; border: none !important;">
-                        <div style="width: 100%; height: 1.5px; background-color: #0f172a; margin-bottom: 2px;"></div>
-                    </td>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; border: none !important; padding: 0;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; border: none !important; padding: 0;">ekoenergetyka.com</td>
                 </tr>
-            </table>
-            <table style="width: 100%; border: none !important; margin: 0; border-collapse: collapse;">
                 <tr>
-                    <td style="width: 75%; border: none !important; padding: 0; color: #64748b; font-size: 6pt; line-height: 1.3; text-align: left;">
-                        Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002<br>
-                        Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229,<br>
-                        NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.
-                    </td>
-                    <td style="width: 25%; border: none !important; padding: 0; text-align: right; vertical-align: top; font-weight: bold; font-size: 9pt; color: #0f172a;">
-                        ekoenergetyka.com<br>
-                        <span style="font-size: 6pt; font-weight: normal; color: #94a3b8;">Version 3.2 EN</span>
+                    <td colspan="2" style="color: #64748b; font-size: 6pt; border: none !important; padding: 5px 0 0 0;">
+                        Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229, NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.<br>
+                        <strong>Version 3.4 EN</strong>
                     </td>
                 </tr>
             </table>
@@ -364,28 +348,15 @@
 
     <!-- PAGE 2 - PHOTOS -->
     <div class="document-container page-break">
-        <table style="width: 100%; border: none !important; margin-bottom: 25px; border-collapse: collapse;">
+        <table class="brand-header">
             <tr>
-                <td style="width: 50%; text-align: left; vertical-align: middle; border: none !important; padding: 0;">
-                    <div style="font-family: Arial, sans-serif; font-size: 20pt; font-weight: normal; letter-spacing: 5px; color: #0f172a; line-height: 1;">
-                        &#923; X O N<sup style="font-size: 8pt; letter-spacing: 0; margin-left: 2px;">&reg;</sup>
-                    </div>
-                    <div style="font-family: Arial, sans-serif; font-size: 7pt; font-weight: normal; letter-spacing: 6px; color: #0f172a; margin-top: 4px; padding-left: 2px;">
-                        C H A R G E R
-                    </div>
+                <td style="width: 50%;">
+                    <div class="brand-logo">A X O N  C H A R G E R</div>
+                    <div class="brand-subtitle">let's talk</div>
                 </td>
-                <td style="width: 50%; text-align: right; vertical-align: middle; border: none !important; padding: 0;">
-                    <table style="width: auto; margin-left: auto; border: none !important; border-collapse: collapse;">
-                        <tr>
-                            <td style="text-align: right; padding-right: 12px; border: none !important; font-size: 7.5pt; font-weight: bold; line-height: 1.2; color: #0f172a;">
-                                let's<br>talk
-                            </td>
-                            <td style="border: none !important; border-left: 2px solid #D2E300 !important; padding-left: 12px; text-align: left; font-size: 7.5pt; color: #0f172a; line-height: 1.4;">
-                                +48 68 328 20 68<br>
-                                contact@ekoenergetyka.com
-                            </td>
-                        </tr>
-                    </table>
+                <td class="brand-contacts">
+                    <strong>Ekoenergetyka-Polska S.A.</strong><br>
+                    Service Photographic Documentation
                 </td>
             </tr>
         </table>
@@ -405,10 +376,11 @@
         <input type="file" id="load-file-input" accept=".axon" style="display: none;" onchange="loadDraft(event)">
         <button class="action-btn load" onclick="document.getElementById('load-file-input').click()">📂 Load Draft</button>
         <button class="action-btn save" onclick="saveDraft()">💾 Save Draft</button>
-        <button class="action-btn" onclick="window.print()">🖨️ Save PDF</button>
+        <button class="action-btn" onclick="printDocument()">🖨️ Save PDF</button>
     </div>
 
     <script>
+        // GENEROWANIE TABEL
         const diagBody = document.getElementById('diag-rows');
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
@@ -435,6 +407,7 @@
             `;
         }
 
+        // KOMPRESJA ZDJĘĆ
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
@@ -445,24 +418,51 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        const img = document.createElement('img');
-                        img.className = 'uploaded-photo';
-                        img.src = event.target.result;
-                        previewBox.appendChild(img);
+                        const imgObj = new Image();
+                        imgObj.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            
+                            const MAX_WIDTH = 1200;
+                            const MAX_HEIGHT = 1200;
+                            let width = imgObj.width;
+                            let height = imgObj.height;
+
+                            if (width > height) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(imgObj, 0, 0, width, height);
+                            
+                            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                            
+                            const imgElement = document.createElement('img');
+                            imgElement.className = 'uploaded-photo';
+                            imgElement.src = compressedDataUrl;
+                            previewBox.appendChild(imgElement);
+                        };
+                        imgObj.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
             }
         });
 
-        // ==========================================
-        // SYSTEM ZAPISU I ODCZYTU ORAZ NAZEWNICTWA
-        // ==========================================
-        
+        // GENEROWANIE NAZWY PLIKU: QP_Model_Date
         function generateFileName() {
-            let qp = document.getElementById('qp-number').innerText.trim().replace(/[^a-zA-Z0-9-]/g, "");
-            let model = document.getElementById('charger-model').innerText.trim().replace(/[^a-zA-Z0-9-]/g, "_");
-            let date = document.getElementById('execution-date').innerText.trim().replace(/[^a-zA-Z0-9.-]/g, "_");
+            let qp = document.getElementById('qp-number').innerText.trim().replace(/[\s/\\:*?"<>|]/g, "_");
+            let model = document.getElementById('charger-model').innerText.trim().replace(/[\s/\\:*?"<>|]/g, "_");
+            let date = document.getElementById('execution-date').innerText.trim().replace(/[\s/\\:*?"<>|]/g, "_");
 
             if (qp === "QP-" || qp === "") qp = "QP";
             if (!model) model = "Model";
@@ -471,24 +471,13 @@
             return ${qp}_${model}_${date};
         }
 
+        // ZAPIS DRAFTU
         function saveDraft() {
-            const data = {
-                texts: [],
-                checkboxes: [],
-                images: []
-            };
+            const data = { texts: [], checkboxes: [], images: [] };
 
-            document.querySelectorAll('.input-field').forEach(el => {
-                data.texts.push(el.innerHTML);
-            });
-
-            document.querySelectorAll('input[type="checkbox"]').forEach(el => {
-                data.checkboxes.push(el.checked);
-            });
-
-            document.querySelectorAll('.uploaded-photo').forEach(el => {
-                data.images.push(el.src);
-            });
+            document.querySelectorAll('.input-field').forEach(el => { data.texts.push(el.innerHTML); });
+            document.querySelectorAll('input[type="checkbox"]').forEach(el => { data.checkboxes.push(el.checked); });
+            document.querySelectorAll('.uploaded-photo').forEach(el => { data.images.push(el.src); });
 
             const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
             const url = URL.createObjectURL(blob);
@@ -499,6 +488,7 @@
             a.click();
         }
 
+        // ODCZYT DRAFTU
         function loadDraft(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -510,16 +500,12 @@
                     
                     const textFields = document.querySelectorAll('.input-field');
                     if (data.texts) {
-                        data.texts.forEach((text, i) => {
-                            if (textFields[i]) textFields[i].innerHTML = text;
-                        });
+                        data.texts.forEach((text, i) => { if (textFields[i]) textFields[i].innerHTML = text; });
                     }
 
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                     if (data.checkboxes) {
-                        data.checkboxes.forEach((checked, i) => {
-                            if (checkboxes[i]) checkboxes[i].checked = checked;
-                        });
+                        data.checkboxes.forEach((checked, i) => { if (checkboxes[i]) checkboxes[i].checked = checked; });
                     }
 
                     if (data.images) {
@@ -541,14 +527,27 @@
             event.target.value = ''; 
         }
 
-        window.addEventListener('beforeprint', () => {
+        // ==========================================
+        // NAPRAWIONE GENEROWANIE PDF Z ODPOWIEDNIĄ NAZWĄ
+        // ==========================================
+        function printDocument() {
+            // Ustawienie nazwy okna zanim wywołamy systemowe okno drukowania
             document.title = generateFileName();
+            
+            // Minimalne opóźnienie upewnia się, że przeglądarka "zauważy" nowy tytuł
+            setTimeout(() => {
+                window.print();
+            }, 50);
+        }
+
+        window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
             });
         });
 
         window.addEventListener('afterprint', () => {
+            // Powrót do zwykłego tytułu
             document.title = "Axon Charger Service Protocol";
             document.querySelectorAll('.input-field').forEach(el => {
                 el.setAttribute('contenteditable', 'true');
