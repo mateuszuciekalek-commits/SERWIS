@@ -32,6 +32,13 @@
             margin-bottom: 20px;
         }
 
+        /* Nierozerwalne bloki - łączy tytuł z tabelą podczas druku */
+        .keep-together {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-bottom: 5px;
+        }
+
         /* TABLES */
         table {
             width: 100% !important;
@@ -121,7 +128,19 @@
         .doc-title-bar table { margin: 0; }
         .doc-title-bar td { border: none !important; padding: 0; color: #fff; }
         
-        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 15px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 2px; }
+        .section-title { 
+            color: #0f172a; 
+            font-size: 8.5pt; 
+            font-weight: bold; 
+            margin-top: 15px; 
+            margin-bottom: 4px; 
+            text-transform: uppercase; 
+            border-bottom: 2px solid #0284c7 !important; 
+            padding-bottom: 2px;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
+        
         .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
 
         /* UI CONTROLS */
@@ -143,7 +162,7 @@
             }
 
             .page-break { page-break-before: always !important; margin-top: 20mm !important; }
-            table, tr, td, th { page-break-inside: avoid !important; }
+            tr, td, th { page-break-inside: avoid !important; }
         }
     </style>
 </head>
@@ -179,99 +198,111 @@
         </div>
 
         <!-- 1. IDENTIFICATION -->
-        <div class="section-title">1. Device and Order Identification</div>
-        <table>
-            <tr>
-                <td class="label" style="width: 16%;">Station Model:</td>
-                <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Enter model..."></div></td>
-                <td class="label" style="width: 16%;">Serial No. (QP):</td>
-                <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
-            </tr>
-            <tr>
-                <td class="label">Installation Address:</td>
-                <td colspan="3"><div class="input-field" contenteditable="true" placeholder="Address..."></div></td>
-            </tr>
-            <tr>
-                <td class="label">Client / Store:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="Client..."></div></td>
-                <td class="label">Technician:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="Technician..."></div></td>
-            </tr>
-            <tr>
-                <td class="label">Date of Execution:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="DD.MM.YYYY"></div></td>
-                <td class="label">Working Hours:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="00:00 - 00:00"></div></td>
-            </tr>
-        </table>
+        <div class="keep-together">
+            <div class="section-title">1. Device and Order Identification</div>
+            <table>
+                <tr>
+                    <td class="label" style="width: 16%;">Station Model:</td>
+                    <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Enter model..."></div></td>
+                    <td class="label" style="width: 16%;">Serial No. (QP):</td>
+                    <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
+                </tr>
+                <tr>
+                    <td class="label">Installation Address:</td>
+                    <td colspan="3"><div class="input-field" contenteditable="true" placeholder="Address..."></div></td>
+                </tr>
+                <tr>
+                    <td class="label">Client / Store:</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Client..."></div></td>
+                    <td class="label">Technician:</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Technician..."></div></td>
+                </tr>
+                <tr>
+                    <td class="label">Date of Execution:</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="DD.MM.YYYY"></div></td>
+                    <td class="label">Working Hours:</td>
+                    <td><div class="input-field" contenteditable="true" placeholder="00:00 - 00:00"></div></td>
+                </tr>
+            </table>
+        </div>
 
         <!-- 2. DIAGNOSTICS -->
-        <div class="section-title">2. Initial Diagnostics and Station Condition Verification</div>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 5%; text-align: center;">No.</th>
-                    <th style="width: 40%;">Inspection Area</th>
-                    <th style="width: 6%; text-align: center;">OK</th>
-                    <th style="width: 6%; text-align: center;">NOK</th>
-                    <th style="width: 6%; text-align: center;">N/A</th>
-                    <th style="width: 37%;">Fault Description / Measurement Results</th>
-                </tr>
-            </thead>
-            <tbody id="diag-rows"></tbody>
-        </table>
+        <div class="keep-together">
+            <div class="section-title">2. Initial Diagnostics and Station Condition Verification</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%; text-align: center;">No.</th>
+                        <th style="width: 40%;">Inspection Area</th>
+                        <th style="width: 6%; text-align: center;">OK</th>
+                        <th style="width: 6%; text-align: center;">NOK</th>
+                        <th style="width: 6%; text-align: center;">N/A</th>
+                        <th style="width: 37%;">Fault Description / Measurement Results</th>
+                    </tr>
+                </thead>
+                <tbody id="diag-rows"></tbody>
+            </table>
+        </div>
 
         <!-- 3. DESCRIPTION OF WORK -->
-        <div class="section-title">3. Detailed Description of Service Work Performed</div>
-        <div class="input-field" contenteditable="true" placeholder="Describe the repair process..." style="min-height: 60px;"></div>
+        <div class="keep-together">
+            <div class="section-title">3. Detailed Description of Service Work Performed</div>
+            <div class="input-field" contenteditable="true" placeholder="Describe the repair process..." style="min-height: 60px;"></div>
+        </div>
 
         <!-- 4. SPARE PARTS -->
-        <div class="section-title">4. Spare Parts and Consumables Used</div>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 5%; text-align: center;">No.</th>
-                    <th style="width: 50%;">Component Name / Part Code</th>
-                    <th style="width: 35%;">Part Serial Number</th>
-                    <th style="width: 10%; text-align: center;">Qty</th>
-                </tr>
-            </thead>
-            <tbody id="parts-rows"></tbody>
-        </table>
+        <div class="keep-together">
+            <div class="section-title">4. Spare Parts and Consumables Used</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%; text-align: center;">No.</th>
+                        <th style="width: 50%;">Component Name / Part Code</th>
+                        <th style="width: 35%;">Part Serial Number</th>
+                        <th style="width: 10%; text-align: center;">Qty</th>
+                    </tr>
+                </thead>
+                <tbody id="parts-rows"></tbody>
+            </table>
+        </div>
 
         <!-- 5. FINAL TESTS -->
-        <div class="section-title">5. Final Tests and Device Status After Repair</div>
-        <table>
-            <tr>
-                <td style="width: 30%; font-weight: bold; background-color: #f8fafc !important;">System / Backend Connection:</td>
-                <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
-                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Remarks..."></div></td>
-            </tr>
-            <tr>
-                <td style="font-weight: bold; background-color: #f8fafc !important;">Test Charging Session:</td>
-                <td style="text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
-                <td><label><input type="checkbox"> Connector 1: OK</label> &nbsp; <label><input type="checkbox"> Connector 2: OK</label></td>
-            </tr>
-            <tr>
-                <td style="font-weight: bold; background-color: #f8fafc !important;">FINAL STATUS:</td>
-                <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> OPERATIONAL</label><br><label><input type="checkbox"> REQUIRES WORK</label></td>
-                <td><div class="input-field" contenteditable="true" placeholder="Recommendations..."></div></td>
-            </tr>
-        </table>
+        <div class="keep-together">
+            <div class="section-title">5. Final Tests and Device Status After Repair</div>
+            <table>
+                <tr>
+                    <td style="width: 30%; font-weight: bold; background-color: #f8fafc !important;">System / Backend Connection:</td>
+                    <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
+                    <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Remarks..."></div></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; background-color: #f8fafc !important;">Test Charging Session:</td>
+                    <td style="text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
+                    <td><label><input type="checkbox"> Connector 1: OK</label> &nbsp; <label><input type="checkbox"> Connector 2: OK</label></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; background-color: #f8fafc !important;">FINAL STATUS:</td>
+                    <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> OPERATIONAL</label><br><label><input type="checkbox"> REQUIRES WORK</label></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="Recommendations..."></div></td>
+                </tr>
+            </table>
+        </div>
 
         <!-- SIGNATURES -->
-        <table style="width: 100%; margin-top: 20px; border: none !important;">
-            <tr>
-                <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" style="text-align: center; font-family: cursive; font-size: 12pt; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Technician's Signature and Stamp</div>
-                </td>
-                <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" style="text-align: center; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Station Representative / Client's Signature</div>
-                </td>
-            </tr>
-        </table>
+        <div class="keep-together">
+            <table style="width: 100%; margin-top: 20px; border: none !important;">
+                <tr>
+                    <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
+                        <div class="input-field" contenteditable="true" style="text-align: center; font-family: cursive; font-size: 12pt; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
+                        <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Technician's Signature and Stamp</div>
+                    </td>
+                    <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
+                        <div class="input-field" contenteditable="true" style="text-align: center; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
+                        <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Station Representative / Client's Signature</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <div class="corporate-footer">
             <table style="border: none !important; margin: 0;">
@@ -282,7 +313,7 @@
                 <tr>
                     <td colspan="2" style="color: #64748b; font-size: 6pt; border: none !important; padding: 5px 0 0 0;">
                         Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229, NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.<br>
-                        <strong>Version 2.2 EN</strong>
+                        <strong>Version 2.3 EN</strong>
                     </td>
                 </tr>
             </table>
