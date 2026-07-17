@@ -119,7 +119,6 @@
         /* BRANDING */
         .brand-header { margin-bottom: 10px; border: none !important; }
         .brand-header td { border: none !important; padding: 0; }
-        .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-top: 2px; }
         .brand-contacts { text-align: right; font-size: 7.5pt; color: #475569; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
         
@@ -170,8 +169,8 @@
             cursor: pointer;
             text-align: center;
         }
-        .action-btn.save { background-color: #16a34a; } /* Zielony do zapisu */
-        .action-btn.load { background-color: #0284c7; } /* Niebieski do wczytania */
+        .action-btn.save { background-color: #16a34a; } 
+        .action-btn.load { background-color: #0284c7; } 
 
         /* PRINT MEDIA QUERIES */
         @media print {
@@ -196,14 +195,17 @@
     <!-- PAGE 1 -->
     <div class="document-container">
         
-        <!-- HEADER -->
+        <!-- HEADER WITH NEW LOGO -->
         <table class="brand-header">
             <tr>
                 <td style="width: 50%;">
-                    <div class="brand-logo">A X O N  C H A R G E R</div>
-                    <div class="brand-subtitle">let's talk</div>
+                    <!-- Zmodyfikowane logo z użyciem wewnętrznych stylów inline (aby niczego nie zepsuć) -->
+                    <div style="font-family: Arial, sans-serif; font-size: 24pt; font-weight: normal; letter-spacing: 6px; color: #0f172a; line-height: 1;">&#923; X O N</div>
+                    <div style="font-family: Arial, sans-serif; font-size: 8pt; font-weight: normal; letter-spacing: 9px; color: #0f172a; margin-top: 5px; padding-left: 2px;">C H A R G E R</div>
+                    
+                    <div class="brand-subtitle" style="margin-top: 10px;">let's talk</div>
                 </td>
-                <td class="brand-contacts">
+                <td class="brand-contacts" style="vertical-align: bottom;">
                     <strong>Ekoenergetyka-Polska S.A.</strong><br>
                     Tel: +48 68 328 20 68 • Email: contact@ekoenergetyka.com<br>
                     Web: ekoenergetyka.com • <em>All you need</em>
@@ -227,7 +229,6 @@
             <div class="section-title">1. Device and Order Identification</div>
             <table>
                 <tr>
-                    <!-- Zmieniono na Charger Model oraz dodano ID dla nazwy pliku -->
                     <td class="label" style="width: 16%;">Charger Model:</td>
                     <td style="width: 34%;"><div class="input-field" id="charger-model" contenteditable="true" placeholder="Enter model..."></div></td>
                     <td class="label" style="width: 16%;">Serial No. (QP):</td>
@@ -339,7 +340,7 @@
                 <tr>
                     <td colspan="2" style="color: #64748b; font-size: 6pt; border: none !important; padding: 5px 0 0 0;">
                         Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229, NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.<br>
-                        <strong>Version 4.0 EN</strong>
+                        <strong>Version 4.1 EN</strong>
                     </td>
                 </tr>
             </table>
@@ -348,13 +349,15 @@
 
     <!-- PAGE 2 - PHOTOS -->
     <div class="document-container page-break">
+        <!-- HEADER WITH NEW LOGO (PAGE 2) -->
         <table class="brand-header">
             <tr>
                 <td style="width: 50%;">
-                    <div class="brand-logo">A X O N  C H A R G E R</div>
-                    <div class="brand-subtitle">let's talk</div>
+                    <div style="font-family: Arial, sans-serif; font-size: 24pt; font-weight: normal; letter-spacing: 6px; color: #0f172a; line-height: 1;">&#923; X O N</div>
+                    <div style="font-family: Arial, sans-serif; font-size: 8pt; font-weight: normal; letter-spacing: 9px; color: #0f172a; margin-top: 5px; padding-left: 2px;">C H A R G E R</div>
+                    <div class="brand-subtitle" style="margin-top: 10px;">let's talk</div>
                 </td>
-                <td class="brand-contacts">
+                <td class="brand-contacts" style="vertical-align: bottom;">
                     <strong>Ekoenergetyka-Polska S.A.</strong><br>
                     Service Photographic Documentation
                 </td>
@@ -364,7 +367,7 @@
         <div class="section-title">APPENDIX: PHOTOS FROM SERVICE INTERVENTION</div>
         
         <div class="controls">
-            <label for="camera-input" class="btn">📸 Click to upload fault photos</label>
+            <button class="btn" onclick="document.getElementById('camera-input').click()">📸 Click to upload fault photos</button>
             <input type="file" id="camera-input" accept="image/*" multiple style="display: none;">
         </div>
 
@@ -376,7 +379,6 @@
         <input type="file" id="load-file-input" accept=".axon" style="display: none;" onchange="loadDraft(event)">
         <button class="action-btn load" onclick="document.getElementById('load-file-input').click()">📂 Load Draft</button>
         <button class="action-btn save" onclick="saveDraft()">💾 Save Draft</button>
-        <!-- Zmieniono wywołanie przycisku na funkcję zmieniającą tytuł dokumentu -->
         <button class="action-btn" onclick="printDocument()">🖨️ Save PDF</button>
     </div>
 
@@ -412,15 +414,50 @@
 
         cameraInput.addEventListener('change', function(e) {
             const files = e.target.files;
+            if (files.length === 0) return;
+
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 if (file) {
                     const reader = new FileReader();
+                    
+                    reader.onerror = () => alert("Error reading file! Check permissions.");
+                    
                     reader.onload = function(event) {
-                        const img = document.createElement('img');
-                        img.className = 'uploaded-photo';
-                        img.src = event.target.result;
-                        previewBox.appendChild(img);
+                        const imgObj = new Image();
+                        imgObj.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            
+                            const MAX_WIDTH = 1200;
+                            const MAX_HEIGHT = 1200;
+                            let width = imgObj.width;
+                            let height = imgObj.height;
+
+                            if (width > height) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(imgObj, 0, 0, width, height);
+                            
+                            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                            
+                            const imgElement = document.createElement('img');
+                            imgElement.className = 'uploaded-photo';
+                            imgElement.src = compressedDataUrl;
+                            previewBox.appendChild(imgElement);
+                        };
+                        imgObj.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
@@ -450,17 +487,14 @@
                 images: []
             };
 
-            // Zbieranie tekstów
             document.querySelectorAll('.input-field').forEach(el => {
                 data.texts.push(el.innerHTML);
             });
 
-            // Zbieranie statusu checkboxów
             document.querySelectorAll('input[type="checkbox"]').forEach(el => {
                 data.checkboxes.push(el.checked);
             });
 
-            // Zbieranie zdjęć
             document.querySelectorAll('.uploaded-photo').forEach(el => {
                 data.images.push(el.src);
             });
@@ -470,7 +504,6 @@
             const a = document.createElement('a');
             a.href = url;
             
-            // Pobranie z odpowiednią nazwą QP_Model_Date
             a.download = generateFileName() + ".axon";
             a.click();
         }
@@ -522,10 +555,8 @@
         // DRUKOWANIE DO PDF Z WŁAŚCIWĄ NAZWĄ
         // ==========================================
         function printDocument() {
-            // Zmiana nazwy dokumentu przed odpaleniem okna wydruku
             document.title = generateFileName();
             
-            // Minimalne opóźnienie upewnia się, że przeglądarka odświeży title
             setTimeout(() => {
                 window.print();
             }, 50);
@@ -538,7 +569,6 @@
         });
 
         window.addEventListener('afterprint', () => {
-            // Po wydrukowaniu wracamy do domyślnego tytułu strony w przeglądarce
             document.title = "Axon Charger Service Protocol";
             
             document.querySelectorAll('.input-field').forEach(el => {
