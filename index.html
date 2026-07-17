@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Stały, wymuszony widok A4 na każdym urządzeniu -->
     <meta name="viewport" content="width=850">
-    <title>Protokół Serwisowy Axon Charger</title>
+    <title>Axon Charger Service Protocol</title>
     <style>
         * {
             box-sizing: border-box;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         body {
@@ -33,18 +32,21 @@
             margin-bottom: 20px;
         }
 
-        /* TABELE - Sztywne i nierozrywalne */
+        /* TABLES */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
+            width: 100% !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
             margin-bottom: 5px;
         }
         
         th, td {
-            border: 1px solid #cbd5e1;
+            border: 1px solid #cbd5e1 !important;
             padding: 4px 6px;
             vertical-align: middle;
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
         }
 
         th {
@@ -55,23 +57,24 @@
         }
 
         .label {
-            background-color: #f8fafc;
+            background-color: #f8fafc !important;
             font-weight: bold;
             color: #475569;
             width: 18%;
         }
 
-        /* POLA TEKSTOWE - Inteligentne zawijanie */
+        /* INPUT FIELDS */
         .input-field {
-            display: block;
-            width: 100%;
+            display: block !important;
+            width: 100% !important;
             min-height: 18px;
             font-family: inherit;
             font-size: 8.5pt;
             color: #0f172a;
             outline: none;
-            white-space: pre-wrap; /* Pozwala na entery i zawijanie tekstu */
-            word-wrap: break-word; /* Wymusza łamanie długich numerów seryjnych */
+            white-space: pre-wrap !important; 
+            word-wrap: break-word !important; 
+            overflow-wrap: break-word !important;
             border: 1px solid #cbd5e1;
             background-color: #f8fafc;
             padding: 2px 4px;
@@ -83,63 +86,70 @@
             background-color: #ffffff;
         }
 
-        /* ZDJĘCIA - Surowe, bez przycinania */
+        /* PHOTOS */
         .photo-grid {
-            display: block;
-            width: 100%;
-            margin-top: 10px;
+            display: block !important;
+            width: 100% !important;
+            margin-top: 10px !important;
+            font-size: 0 !important;
         }
         
         .uploaded-photo {
-            display: inline-block;
-            width: 48%; 
-            height: auto; 
-            margin: 0 1% 15px 0;
-            vertical-align: top;
-            border: 1px solid #cbd5e1; 
+            display: inline-block !important;
+            width: 48% !important; 
+            height: auto !important; 
+            margin: 0 4% 15px 0 !important;
+            vertical-align: top !important;
+            border: 1px solid #cbd5e1 !important; 
+            border-radius: 0 !important;
+            page-break-inside: avoid !important;
         }
 
-        /* NAGŁÓWKI I DETALE AXON */
-        .brand-header { margin-bottom: 10px; border: none; }
-        .brand-header td { border: none; padding: 0; }
+        .uploaded-photo:nth-child(2n) {
+            margin-right: 0 !important;
+        }
+
+        /* BRANDING */
+        .brand-header { margin-bottom: 10px; border: none !important; }
+        .brand-header td { border: none !important; padding: 0; }
         .brand-logo { font-size: 18pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
         .brand-subtitle { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-top: 2px; }
-        .brand-contacts { text-align: right; font-size: 7.5pt; color: #475569; border-left: 2px solid #D2E300; padding-left: 12px; }
+        .brand-contacts { text-align: right; font-size: 7.5pt; color: #475569; border-left: 2px solid #D2E300 !important; padding-left: 12px; }
         
-        .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; }
+        .doc-title-bar { background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; }
         .doc-title-bar h2 { margin: 0; font-size: 10.5pt; font-weight: 700; text-transform: uppercase; }
         .doc-title-bar table { margin: 0; }
-        .doc-title-bar td { border: none; padding: 0; color: #fff; }
+        .doc-title-bar td { border: none !important; padding: 0; color: #fff; }
         
-        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 15px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7; padding-bottom: 2px; }
-        .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 4px; font-size: 6pt; color: #718096; }
+        .section-title { color: #0f172a; font-size: 8.5pt; font-weight: bold; margin-top: 15px; margin-bottom: 4px; text-transform: uppercase; border-bottom: 2px solid #0284c7 !important; padding-bottom: 2px; }
+        .corporate-footer { margin-top: 20px; border-top: 1px solid #e2e8f0 !important; padding-top: 4px; font-size: 6pt; color: #718096; }
 
-        /* INTERFEJS */
+        /* UI CONTROLS */
         .controls { text-align: center; margin: 15px 0; background: #f8fafc; border: 2px dashed #0284c7; padding: 15px; border-radius: 6px; }
         .btn { background-color: #0284c7; color: white; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; border: none; display: inline-block; }
-        .print-btn { position: fixed; bottom: 20px; right: 20px; background-color: #0f172a; border-radius: 50px; font-size: 14pt; padding: 15px 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; }
+        .print-btn { position: fixed; bottom: 20px; right: 20px; background-color: #0f172a; color: white; border-radius: 50px; font-size: 14pt; padding: 15px 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; font-weight: bold; border: none; cursor: pointer; }
 
-        /* WIDOK WYDRUKU PDF */
+        /* PRINT MEDIA QUERIES */
         @media print {
             @page { size: A4; margin: 8mm 12mm 15mm 12mm; }
-            body { padding: 0; background-color: #fff; display: block; }
-            .document-container { width: 100%; padding: 0; box-shadow: none; margin: 0; }
-            .controls, .print-btn { display: none; }
+            body { padding: 0; background-color: #fff !important; display: block; }
+            .document-container { width: 100% !important; padding: 0 !important; box-shadow: none !important; margin: 0; }
+            .controls, .print-btn { display: none !important; }
             
             .input-field {
-                border: none;
-                background-color: transparent;
-                padding: 0;
+                border: none !important;
+                background-color: transparent !important;
+                padding: 0 !important;
             }
 
-            .page-break { page-break-before: always; margin-top: 20mm; }
-            table, tr, td, th { page-break-inside: avoid; }
+            .page-break { page-break-before: always !important; margin-top: 20mm !important; }
+            table, tr, td, th { page-break-inside: avoid !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- STRONA 1 -->
+    <!-- PAGE 1 -->
     <div class="document-container">
         
         <!-- HEADER -->
@@ -160,125 +170,126 @@
         <div class="doc-title-bar">
             <table>
                 <tr>
-                    <td><h2>PROTOKÓŁ SERWISOWY URZĄDZENIA</h2></td>
+                    <td><h2>DEVICE SERVICE PROTOCOL</h2></td>
                     <td style="text-align: right; font-size: 8.5pt;">
-                        Nr zlecenia: <div class="input-field" contenteditable="true" style="display: inline-block; width: 100px; background: transparent; border: none; border-bottom: 1px solid #64748b; color: white;"></div>
+                        Ticket No.: <div class="input-field" contenteditable="true" style="display: inline-block !important; width: 100px !important; background: transparent !important; border: none !important; border-bottom: 1px solid #64748b !important; color: white !important;"></div>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <!-- 1. IDENTYFIKACJA -->
-        <div class="section-title">1. Identyfikacja urządzenia i zlecenia</div>
+        <!-- 1. IDENTIFICATION -->
+        <div class="section-title">1. Device and Order Identification</div>
         <table>
             <tr>
-                <td class="label" style="width: 16%;">Model stacji:</td>
-                <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Wpisz model..."></div></td>
-                <td class="label" style="width: 16%;">Nr seryjny (QP):</td>
+                <td class="label" style="width: 16%;">Station Model:</td>
+                <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Enter model..."></div></td>
+                <td class="label" style="width: 16%;">Serial No. (QP):</td>
                 <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
             </tr>
             <tr>
-                <td class="label">Adres instalacji:</td>
-                <td colspan="3"><div class="input-field" contenteditable="true" placeholder="Adres..."></div></td>
+                <td class="label">Installation Address:</td>
+                <td colspan="3"><div class="input-field" contenteditable="true" placeholder="Address..."></div></td>
             </tr>
             <tr>
-                <td class="label">Klient / Sklep:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="Klient..."></div></td>
-                <td class="label">Technik:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="Serwisant..."></div></td>
+                <td class="label">Client / Store:</td>
+                <td><div class="input-field" contenteditable="true" placeholder="Client..."></div></td>
+                <td class="label">Technician:</td>
+                <td><div class="input-field" contenteditable="true" placeholder="Technician..."></div></td>
             </tr>
             <tr>
-                <td class="label">Data wykonania:</td>
-                <td><div class="input-field" contenteditable="true" placeholder="DD.MM.RRRR"></div></td>
-                <td class="label">Czas pracy:</td>
+                <td class="label">Date of Execution:</td>
+                <td><div class="input-field" contenteditable="true" placeholder="DD.MM.YYYY"></div></td>
+                <td class="label">Working Hours:</td>
                 <td><div class="input-field" contenteditable="true" placeholder="00:00 - 00:00"></div></td>
             </tr>
         </table>
 
-        <!-- 2. DIAGNOSTYKA -->
-        <div class="section-title">2. Diagnostyka wstępna i weryfikacja stanu stacji</div>
+        <!-- 2. DIAGNOSTICS -->
+        <div class="section-title">2. Initial Diagnostics and Station Condition Verification</div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 5%; text-align: center;">Lp.</th>
-                    <th style="width: 40%;">Obszar kontroli</th>
+                    <th style="width: 5%; text-align: center;">No.</th>
+                    <th style="width: 40%;">Inspection Area</th>
                     <th style="width: 6%; text-align: center;">OK</th>
                     <th style="width: 6%; text-align: center;">NOK</th>
-                    <th style="width: 6%; text-align: center;">N/D</th>
-                    <th style="width: 37%;">Opis usterki / Wyniki pomiarów</th>
+                    <th style="width: 6%; text-align: center;">N/A</th>
+                    <th style="width: 37%;">Fault Description / Measurement Results</th>
                 </tr>
             </thead>
             <tbody id="diag-rows"></tbody>
         </table>
 
-        <!-- 3. OPIS PRAC -->
-        <div class="section-title">3. Szczegółowy opis wykonanych czynności serwisowych</div>
-        <div class="input-field" contenteditable="true" placeholder="Opisz przebieg naprawy..." style="min-height: 60px;"></div>
+        <!-- 3. DESCRIPTION OF WORK -->
+        <div class="section-title">3. Detailed Description of Service Work Performed</div>
+        <div class="input-field" contenteditable="true" placeholder="Describe the repair process..." style="min-height: 60px;"></div>
 
-        <!-- 4. CZĘŚCI ZAMIENNE -->
-        <div class="section-title">4. Wykorzystane części zamienne i materiały eksploatacyjne</div>
+        <!-- 4. SPARE PARTS -->
+        <div class="section-title">4. Spare Parts and Consumables Used</div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 5%; text-align: center;">Lp.</th>
-                    <th style="width: 50%;">Nazwa komponentu / Kod części</th>
-                    <th style="width: 35%;">Numer seryjny części</th>
-                    <th style="width: 10%; text-align: center;">Ilość</th>
+                    <th style="width: 5%; text-align: center;">No.</th>
+                    <th style="width: 50%;">Component Name / Part Code</th>
+                    <th style="width: 35%;">Part Serial Number</th>
+                    <th style="width: 10%; text-align: center;">Qty</th>
                 </tr>
             </thead>
             <tbody id="parts-rows"></tbody>
         </table>
 
-        <!-- 5. TESTY KOŃCOWE -->
-        <div class="section-title">5. Testy końcowe i status urządzenia po naprawie</div>
+        <!-- 5. FINAL TESTS -->
+        <div class="section-title">5. Final Tests and Device Status After Repair</div>
         <table>
             <tr>
-                <td style="width: 30%; font-weight: bold; background-color: #f8fafc;">Połączenie z systemem:</td>
-                <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
-                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Uwagi..."></div></td>
+                <td style="width: 30%; font-weight: bold; background-color: #f8fafc !important;">System / Backend Connection:</td>
+                <td style="width: 20%; text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
+                <td style="width: 50%;"><div class="input-field" contenteditable="true" placeholder="Remarks..."></div></td>
             </tr>
             <tr>
-                <td style="font-weight: bold; background-color: #f8fafc;">Próbna sesja ładowania:</td>
-                <td style="text-align: center;"><label><input type="checkbox"> Tak</label> &nbsp; <label><input type="checkbox"> Nie</label></td>
-                <td><label><input type="checkbox"> Złącze 1: OK</label> &nbsp; <label><input type="checkbox"> Złącze 2: OK</label></td>
+                <td style="font-weight: bold; background-color: #f8fafc !important;">Test Charging Session:</td>
+                <td style="text-align: center;"><label><input type="checkbox"> Yes</label> &nbsp; <label><input type="checkbox"> No</label></td>
+                <td><label><input type="checkbox"> Connector 1: OK</label> &nbsp; <label><input type="checkbox"> Connector 2: OK</label></td>
             </tr>
             <tr>
-                <td style="font-weight: bold; background-color: #f8fafc;">STATUS KOŃCOWY:</td>
-                <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> SPRAWNA</label><br><label><input type="checkbox"> WYM. PRAC</label></td>
-                <td><div class="input-field" contenteditable="true" placeholder="Zalecenia..."></div></td>
+                <td style="font-weight: bold; background-color: #f8fafc !important;">FINAL STATUS:</td>
+                <td style="text-align: center; font-weight: bold;"><label><input type="checkbox"> OPERATIONAL</label><br><label><input type="checkbox"> REQUIRES WORK</label></td>
+                <td><div class="input-field" contenteditable="true" placeholder="Recommendations..."></div></td>
             </tr>
         </table>
 
-        <!-- PODPISY -->
-        <table style="width: 100%; margin-top: 20px; border: none;">
+        <!-- SIGNATURES -->
+        <table style="width: 100%; margin-top: 20px; border: none !important;">
             <tr>
-                <td style="width: 50%; text-align: center; border: none; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" style="text-align: center; font-family: cursive; font-size: 12pt; border: none; border-bottom: 1px solid #cbd5e1; border-radius: 0; background: transparent;"></div>
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis i pieczęć Serwisanta</div>
+                <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
+                    <div class="input-field" contenteditable="true" style="text-align: center; font-family: cursive; font-size: 12pt; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Technician's Signature and Stamp</div>
                 </td>
-                <td style="width: 50%; text-align: center; border: none; padding: 0 15px;">
-                    <div class="input-field" contenteditable="true" style="text-align: center; border: none; border-bottom: 1px solid #cbd5e1; border-radius: 0; background: transparent;"></div>
-                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Podpis przedstawiciela stacji / Klienta</div>
+                <td style="width: 50%; text-align: center; border: none !important; padding: 0 15px;">
+                    <div class="input-field" contenteditable="true" style="text-align: center; border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0; background: transparent !important;"></div>
+                    <div style="font-size: 7.5pt; color: #64748b; margin-top: 4px;">Station Representative / Client's Signature</div>
                 </td>
             </tr>
         </table>
 
         <div class="corporate-footer">
-            <table style="border: none; margin: 0;">
+            <table style="border: none !important; margin: 0;">
                 <tr>
-                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; border: none; padding: 0;">All you need</td>
-                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; border: none; padding: 0;">ekoenergetyka.com</td>
+                    <td style="font-weight: bold; font-size: 10pt; color: #0f172a; border: none !important; padding: 0;">All you need</td>
+                    <td style="text-align: right; font-weight: bold; font-size: 8.5pt; color: #0f172a; border: none !important; padding: 0;">ekoenergetyka.com</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="color: #64748b; font-size: 6pt; border: none; padding: 5px 0 0 0;">
-                        Ekoenergetyka-Polska S.A. - Właściciel marki Axon Charger z siedzibą w Zielonej Górze, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, Sąd Rejonowy w Zielonej Górze, VIII Wydział Gospodarczy Krajowego Rejestru Sądowego, KRS: 0000846229, NIP: 9731013938, kapitał zakładowy: 323.889 PLN, kapitał wpłacony: 323.889 PLN, Numer BDO: 000014716.
+                    <td colspan="2" style="color: #64748b; font-size: 6pt; border: none !important; padding: 5px 0 0 0;">
+                        Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229, NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.<br>
+                        <strong>Version 2.2 EN</strong>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 
-    <!-- STRONA 2 - ZDJĘCIA -->
+    <!-- PAGE 2 - PHOTOS -->
     <div class="document-container page-break">
         <table class="brand-header">
             <tr>
@@ -288,26 +299,24 @@
                 </td>
                 <td class="brand-contacts">
                     <strong>Ekoenergetyka-Polska S.A.</strong><br>
-                    Dokumentacja fotograficzna serwisu
+                    Service Photographic Documentation
                 </td>
             </tr>
         </table>
 
-        <div class="section-title">ZAŁĄCZNIK: ZDJĘCIA Z INTERWENCJI SERWISOWEJ</div>
+        <div class="section-title">APPENDIX: PHOTOS FROM SERVICE INTERVENTION</div>
         
         <div class="controls">
-            <label for="camera-input" class="btn">📸 Kliknij, aby wgrać zdjęcia usterki</label>
+            <label for="camera-input" class="btn">📸 Click to upload fault photos</label>
             <input type="file" id="camera-input" accept="image/*" multiple style="display: none;">
         </div>
 
-        <!-- Czysta siatka zdjęć -->
         <div class="photo-grid" id="preview-box"></div>
     </div>
 
-    <button class="btn print-btn" onclick="window.print()">🖨️ Zapisz PDF</button>
+    <button class="btn print-btn" onclick="window.print()">🖨️ Save PDF</button>
 
     <script>
-        // CZYSTE GENEROWANIE TABEL - Bez żadnych dziwnych tagów
         const diagBody = document.getElementById('diag-rows');
         for (let i = 1; i <= 6; i++) {
             diagBody.innerHTML += `
@@ -323,7 +332,7 @@
         }
 
         const partsBody = document.getElementById('parts-rows');
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 10; i++) {
             partsBody.innerHTML += `
                 <tr>
                     <td style="text-align: center; font-weight: bold;">${i}</td>
@@ -334,7 +343,6 @@
             `;
         }
 
-        // CZYSTE WGRYWANIE ZDJĘĆ - Tylko surowy tag <img>
         const cameraInput = document.getElementById('camera-input');
         const previewBox = document.getElementById('preview-box');
 
@@ -355,7 +363,6 @@
             }
         });
 
-        // Przed drukiem zdejmujemy atrybut edycji, aby tekst zachował się w PDF jak natywny tekst
         window.addEventListener('beforeprint', () => {
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
