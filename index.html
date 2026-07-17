@@ -170,8 +170,8 @@
             cursor: pointer;
             text-align: center;
         }
-        .action-btn.save { background-color: #16a34a; } 
-        .action-btn.load { background-color: #0284c7; } 
+        .action-btn.save { background-color: #16a34a; } /* Zielony do zapisu */
+        .action-btn.load { background-color: #0284c7; } /* Niebieski do wczytania */
 
         /* PRINT MEDIA QUERIES */
         @media print {
@@ -227,10 +227,10 @@
             <div class="section-title">1. Device and Order Identification</div>
             <table>
                 <tr>
-                    <td class="label" style="width: 16%;">Charger Model:</td>
-                    <td style="width: 34%;"><div class="input-field" id="charger-model" contenteditable="true" placeholder="Enter model..."></div></td>
+                    <td class="label" style="width: 16%;">Station Model:</td>
+                    <td style="width: 34%;"><div class="input-field" contenteditable="true" placeholder="Enter model..."></div></td>
                     <td class="label" style="width: 16%;">Serial No. (QP):</td>
-                    <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" id="qp-number" contenteditable="true">QP-</div></td>
+                    <td style="width: 34%; font-family: monospace; font-weight: bold;"><div class="input-field" contenteditable="true">QP-</div></td>
                 </tr>
                 <tr>
                     <td class="label">Installation Address:</td>
@@ -244,7 +244,7 @@
                 </tr>
                 <tr>
                     <td class="label">Date of Execution:</td>
-                    <td><div class="input-field" id="execution-date" contenteditable="true" placeholder="DD.MM.YYYY"></div></td>
+                    <td><div class="input-field" contenteditable="true" placeholder="DD.MM.YYYY"></div></td>
                     <td class="label">Working Hours:</td>
                     <td><div class="input-field" contenteditable="true" placeholder="00:00 - 00:00"></div></td>
                 </tr>
@@ -338,7 +338,7 @@
                 <tr>
                     <td colspan="2" style="color: #64748b; font-size: 6pt; border: none !important; padding: 5px 0 0 0;">
                         Ekoenergetyka-Polska S.A. - Owner of the Axon Charger brand with its registered office in Zielona Góra, ul. Nowy Kisielin – Rozwojowa 7A, 66-002 Zielona Góra, District Court in Zielona Góra, 8th Commercial Division of the National Court Register, KRS: 0000846229, NIP: 9731013938, share capital: 323,889 PLN, paid-in capital: 323,889 PLN, BDO Number: 000014716.<br>
-                        <strong>Version 3.1 EN</strong>
+                        <strong>Version 3.0 EN</strong>
                     </td>
                 </tr>
             </table>
@@ -426,22 +426,9 @@
         });
 
         // ==========================================
-        // SYSTEM ZAPISU I ODCZYTU ORAZ NAZEWNICTWA
+        // SYSTEM ZAPISU I ODCZYTU (Wersja Robocza)
         // ==========================================
         
-        // Funkcja budująca dynamiczną nazwę pliku
-        function generateFileName() {
-            let qp = document.getElementById('qp-number').innerText.trim().replace(/[^a-zA-Z0-9-]/g, "");
-            let model = document.getElementById('charger-model').innerText.trim().replace(/[^a-zA-Z0-9-]/g, "_");
-            let date = document.getElementById('execution-date').innerText.trim().replace(/[^a-zA-Z0-9.-]/g, "_");
-
-            if (qp === "QP-" || qp === "") qp = "QP";
-            if (!model) model = "Model";
-            if (!date) date = "Date";
-
-            return ${qp}_${model}_${date};
-        }
-
         function saveDraft() {
             const data = {
                 texts: [],
@@ -449,25 +436,35 @@
                 images: []
             };
 
+            // Zbieranie tekstów
             document.querySelectorAll('.input-field').forEach(el => {
                 data.texts.push(el.innerHTML);
             });
 
+            // Zbieranie statusu checkboxów
             document.querySelectorAll('input[type="checkbox"]').forEach(el => {
                 data.checkboxes.push(el.checked);
             });
 
+            // Zbieranie zdjęć (jako ciągi Base64)
             document.querySelectorAll('.uploaded-photo').forEach(el => {
                 data.images.push(el.src);
             });
 
+            // Tworzenie i pobieranie pliku
             const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             
-            // Pobranie dynamicznej nazwy
-            a.download = generateFileName() + ".axon";
+            // Generowanie nazwy pliku na bazie QP (jeśli wpisano)
+            let fileName = "Report_Draft";
+            const qpField = document.querySelectorAll('.input-field')[1]; 
+            if(qpField && qpField.innerText.length > 3) {
+                fileName = qpField.innerText.trim().replace(/[^a-zA-Z0-9-]/g, "");
+            }
+            
+            a.download = fileName + ".axon";
             a.click();
         }
 
@@ -480,6 +477,7 @@
                 try {
                     const data = JSON.parse(e.target.result);
                     
+                    // Odtwarzanie tekstów
                     const textFields = document.querySelectorAll('.input-field');
                     if (data.texts) {
                         data.texts.forEach((text, i) => {
@@ -487,6 +485,7 @@
                         });
                     }
 
+                    // Odtwarzanie checkboxów
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                     if (data.checkboxes) {
                         data.checkboxes.forEach((checked, i) => {
@@ -494,8 +493,9 @@
                         });
                     }
 
+                    // Odtwarzanie zdjęć
                     if (data.images) {
-                        previewBox.innerHTML = '';
+                        previewBox.innerHTML = ''; // Czyścimy obecne zdjęcia
                         data.images.forEach(src => {
                             const img = document.createElement('img');
                             img.className = 'uploaded-photo';
@@ -510,23 +510,19 @@
                 }
             };
             reader.readAsText(file);
+            
+            // Reset inputa, żeby można było wgrać ten sam plik dwa razy pod rząd
             event.target.value = ''; 
         }
 
-        // Przygotowanie do druku PDF - oraz zmiana nazwy drukowanego pliku PDF!
+        // Przygotowanie do druku PDF
         window.addEventListener('beforeprint', () => {
-            // Zmiana nazwy okna, tak aby przeglądarka podpowiedziała odpowiednią nazwę pliku PDF
-            document.title = generateFileName();
-            
             document.querySelectorAll('.input-field').forEach(el => {
                 el.removeAttribute('contenteditable');
             });
         });
 
         window.addEventListener('afterprint', () => {
-            // Powrót do standardowej nazwy w zakładce po drukowaniu
-            document.title = "Axon Charger Service Protocol";
-
             document.querySelectorAll('.input-field').forEach(el => {
                 el.setAttribute('contenteditable', 'true');
             });
